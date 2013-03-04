@@ -13,10 +13,10 @@ namespace BoBox.Visitors
     {
         public Dictionary<string, DummyVertex> DummyVertices { get; private set; }
 
-        public VertexToDummyLookupTable(List<IVertex> vertices)
+        public VertexToDummyLookupTable(Graph graph)
         {
             DummyVertices = new Dictionary<string, DummyVertex>();
-            SetVertices(vertices);
+            SetVertices(graph.Vertices);
         }
 
         private void SetVertices(List<IVertex> vertices)
@@ -45,12 +45,12 @@ namespace BoBox.Visitors
             {
                 try
                 {
-                    DummyVertices.Add(item.Id, item);
+                    DummyVertices.Add(item, new DummyVertex() { Id = item, Parent = visited });
 
                 }
                 catch
                 {
-                    throw new Exception(string.Format("Dummy id isn't unique {0}", item.Id));
+                    throw new Exception(string.Format("Dummy id isn't unique {0}", item));
                 }
             }
 
@@ -58,12 +58,12 @@ namespace BoBox.Visitors
             {
                 try
                 {
-                    DummyVertices.Add(item.Id, item);
+                    DummyVertices.Add(item, new DummyVertex() { Id = item, Parent = visited });
 
                 }
                 catch
                 {
-                    throw new Exception(string.Format("Dummy id isn't unique {0}", item.Id));
+                    throw new Exception(string.Format("Dummy id isn't unique {0}", item));
                 }
             }
 
@@ -73,12 +73,12 @@ namespace BoBox.Visitors
         {
             foreach (var item in visited.Inputs)
             {
-                DummyVertices.Add(item.Id, item);
+                DummyVertices.Add(item, new DummyVertex() { Id = item, Parent = visited });
             }
 
             foreach (var item in visited.Outputs)
             {
-                DummyVertices.Add(item.Id, item);
+                DummyVertices.Add(item, new DummyVertex() { Id = item, Parent = visited });
             }
 
             foreach (var vertex in visited.Vertices)
@@ -87,5 +87,4 @@ namespace BoBox.Visitors
             }
         }
     }
-
 }

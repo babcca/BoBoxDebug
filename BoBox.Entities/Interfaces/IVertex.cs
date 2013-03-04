@@ -10,10 +10,10 @@ namespace BoBox.Entities.Interfaces
     {
         string Id { get; set; }
         string Label { get; set; }
-        List<DummyVertex> Inputs { get; set; }
-        List<DummyVertex> Outputs { get; set; }
+        List<string> Inputs { get; set; }
+        List<string> Outputs { get; set; }
 
-        IEnumerable<IVertex> Successtors { get; }
-        void SetSuccesstors();
+        IEnumerable<IVertex> Successtors { get; set; }
+        void AddSuccesstor(IVertex vertex);
     }
 }

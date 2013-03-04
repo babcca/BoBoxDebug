@@ -11,6 +11,6 @@ namespace BoBox.Entities
     public class Graph
     {
         public List<IVertex> Vertices { get; set; }
-        public List<Edge> Edges { get; set; }
+        public List<Edge> Edges { get; set; }        
     }
 }

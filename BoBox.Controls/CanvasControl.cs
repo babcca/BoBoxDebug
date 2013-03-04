@@ -7,12 +7,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace BoBox.Controls
 {
     public class GraphCanvasControl : CanvasControl
     {
         public static readonly DependencyProperty GraphVertexProperty;
+        public static readonly DependencyProperty GraphLayersProperty;
 
         public List<VertexControl> GraphVertex
         {
@@ -20,33 +23,41 @@ namespace BoBox.Controls
             set { SetValue(GraphVertexProperty, value); }
         }
 
+        public StackPanel GraphLayers
+        {
+            get { return GetValue(GraphLayersProperty) as StackPanel; }
+            set { SetValue(GraphLayersProperty, value); }
+        }
+
         static GraphCanvasControl()
         {
             GraphVertexProperty = DependencyProperty.Register("GraphVertex", typeof(List<VertexControl>), typeof(GraphCanvasControl), new FrameworkPropertyMetadata(null, Vertex_PropertyChanged));
+
+            GraphLayersProperty = DependencyProperty.Register("GraphLayers", typeof(StackPanel), typeof(GraphCanvasControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, Layers_PropertyChanged));
+        }
+
+        protected static void Layers_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var graph = d as GraphCanvasControl;
+            graph.Children.Add(graph.GraphLayers);
+            //graph.UpdateLayout();
+            foreach (var layer in graph.GraphLayers.Children)
+            {
+                var l = new Line();
+                l.Stroke = Brushes.Black;
+                l.X1 = 100;
+                l.Y1 = 10;
+
+                l.Y2 = 100;
+                l.Y2 = 100;
+
+                graph.Children.Add(l);
+            }
+
         }
 
         protected static void Vertex_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            var graph = obj as GraphCanvasControl;
-            //var self = (GraphLayout<TGraph>)obj;
-            //self.OnGraphUpdate();
-
-
-            var panel = new StackPanel();
-
-            var layer = new LayerPanel();
-            for (int i = 0; i < graph.GraphVertex.Count; ++i)
-            {
-                var l = new List<VertexControl>();
-                l.Add(graph.GraphVertex.ElementAt(i));
-                layer.Vertices = l;
-                panel.Children.Add(layer);
-                layer = new LayerPanel();
-            }
-
-
-            graph.Children.Add(panel);
-
         }
 
 
@@ -55,58 +66,40 @@ namespace BoBox.Controls
 
     public class CanvasControl : Panel
     {
-
-        public CanvasControl()
-        {
-        }
-
         // http://msdn.microsoft.com/en-us/library/ms754152.aspx#Panels_custom_panel_elements
         /// <summary>
         /// Slouzi pro urceni velikosti plochy
         /// </summary>
         /// <param name="constraint"></param>
         /// <returns></returns>
-        //protected override Size MeasureOverride(Size constraint)
-        //{
-        //    double sizeX = 0;
-        //    double sizeY = 0;
+        protected override Size MeasureOverride(Size constraint)
+        {
+            double sizeX = 0;
+            double sizeY = 0;
 
-        //    foreach (UIElement child in InternalChildren)
-        //    {
-        //        child.Measure(constraint);
-        //        if (child is VertexControl)
-        //        {
-        //            var vertex = (VertexControl)child;
+            foreach (UIElement child in InternalChildren)
+            {
+                child.Measure(constraint);
+                sizeX = Math.Max(sizeX, child.DesiredSize.Width);
+                sizeY = Math.Max(sizeY, child.DesiredSize.Height);
+            }
 
-        //            sizeX = Math.Max(sizeX, child.DesiredSize.Width + vertex.X);
-        //            sizeY = Math.Max(sizeY, child.DesiredSize.Height + vertex.Y);
-        //        }
-        //    }
-
-        //    return new Size(sizeX, sizeY);
-        //}
+            return new Size(sizeX, sizeY);
+        }
 
         /// <summary>
         /// Slouzi pro rozmisteni prvku v plose
         /// </summary>
         /// <param name="arrangeSize"></param>
         /// <returns></returns>
-        //protected override Size ArrangeOverride(Size arrangeSize)
-        //{
-        //    foreach (UIElement child in InternalChildren)
-        //    {
-        //        if (child is VertexControl)
-        //        {
-        //            var vertex = (VertexControl)child;
-        //            vertex.Arrange(new Rect(new Point(vertex.X, vertex.Y), child.DesiredSize));
-        //        }
-        //        else
-        //        {
+        protected override Size ArrangeOverride(Size arrangeSize)
+        {
+            foreach (UIElement child in InternalChildren)
+            {
+                child.Arrange(new Rect(new Point(0, 0), child.DesiredSize));
+            }
 
-        //        }
-        //    }
-
-        //    return arrangeSize; // Returns the final Arranged size
-        //}
+            return arrangeSize; // Returns the final Arranged size
+        }
     }
 }

@@ -12,19 +12,19 @@ namespace BoBox.Entities
         public string Id { get; set; }
         public string Label { get; set; }
         public string Type { get; set; }
-        public List<DummyVertex> Inputs { get; set; }
-        public List<DummyVertex> Outputs { get; set; }        
+        public List<string> Inputs { get; set; }
+        public List<string> Outputs { get; set; }        
 
         public abstract void Accept(IVertexVisitor visitor);
         public abstract TResult Accept<TResult>(IVertexVisitor<TResult> visitor);
 
-        private IEnumerable<IVertex> successtors_;
-        public IEnumerable<IVertex> Successtors { get { return successtors_; } }
-
-        public void SetSuccesstors()
-        {
-            successtors_ = Outputs.Select(d => d.Next.Parent);
-        }
         
+        public IEnumerable<IVertex> Successtors { get; set; }
+
+        private List<IVertex> successtors_ = new List<IVertex>();
+        public void AddSuccesstor(IVertex vertex)
+        {
+            successtors_.Add(vertex);
+        }
     }
 }

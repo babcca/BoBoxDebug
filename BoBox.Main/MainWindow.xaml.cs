@@ -31,14 +31,12 @@ namespace BoBox.Main
             InitializeComponent();
 
             var l = new ModelLoader();
-            var m = l.LoadFromFile();
-
-            var a = new VerticesLayering(m.Vertices, m.Vertices.Where(v => v.Outputs.Count == 0));
+            var m = l.LoadFromFile("Data/q3c.sparql.json");           
 
             var c = new ModelToControl();
             var p = c.Transfrom(m);
 
-            Graph.Children.Add(p);
+            GraphCanvas.GraphLayers = p;
             
         }
     }

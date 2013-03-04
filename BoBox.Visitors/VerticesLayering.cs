@@ -48,7 +48,7 @@ namespace BoBox.Visitors
 
             foreach (var vertex in visited.Vertices)
             {
-                vertex.Accept(this);
+               //vertex.Accept(this);
             }
         }
     }
@@ -109,15 +109,15 @@ namespace BoBox.Visitors
             {
                 vertex.Accept(this);
             }
-
+            
             Dictionary<int, List<IVertex>> layers = new Dictionary<int, List<IVertex>>();
-
             foreach (var item in properties.Table)
             {
                 List<IVertex> layer;
                 if (!layers.TryGetValue(item.Value.Layer, out layer))
                 {
-
+                    var vertex = vertices.First(v => v.Id == item.Key);
+                    layers.Add(item.Value.Layer, new List<IVertex>() { vertex });
                 }
                 else
                 {
@@ -154,6 +154,7 @@ namespace BoBox.Visitors
             {
                 var layer = vertex.Successtors.Select(s => s.Accept(this)).Max() + 1;
                 me.Layer = layer;
+                me.Color = LayeringProperties.Colors.Black;
                 return layer;
             }
             else

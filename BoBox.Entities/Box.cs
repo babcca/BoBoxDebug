@@ -20,6 +20,7 @@ namespace BoBox.Entities
         }
     }
 
+    /*
     public class Dummy : Vertex
     {
         public override void Accept(IVertexVisitor visitor)
@@ -32,6 +33,7 @@ namespace BoBox.Entities
             return visitor.Visit(this);
         }
     }
+    */
 
     public class Subgraph : Vertex
     {
@@ -45,6 +47,11 @@ namespace BoBox.Entities
         public override TResult Accept<TResult>(IVertexVisitor<TResult> visitor)
         {
             return visitor.Visit(this);
+        }
+
+        public IEnumerable<IVertex> GetSinks()
+        {
+            return this.Vertices.Where(v => v.Successtors.Contains(this));
         }
     }
 

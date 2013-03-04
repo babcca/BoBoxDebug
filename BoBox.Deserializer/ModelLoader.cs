@@ -25,44 +25,33 @@ namespace BoBox.Deserializer
         {
             // [TODO] Input/output nejsou objekty ale id
             IType type = JsonSerializer.DeserializeFromString<VertexType>(json);
-            IVertex vertex =  VertexFactory[type.Type.ToLower()](json);
-
-            // Aktualizuj pointry na rodice pro nosne vrcholy
-            foreach (var dummy in vertex.Inputs)
-            {
-                dummy.Parent = vertex;                
-            }
-
-            foreach (var dummy in vertex.Outputs)
-            {
-                dummy.Parent = vertex;
-            }
-
-            // Nastav nasledniky 
-            vertex.SetSuccesstors();
+            IVertex vertex =  VertexFactory[type.Type.ToLower()](json);            
 
             return vertex;
         }
 
-        public Graph LoadFromFile(string filename = "Data/dump_v1.json")
+        public Graph LoadFromFile(string filename = "Data/q2.sparql.json")
         {                        
             var file = System.IO.File.ReadAllText(filename);
 
             var model = JsonSerializer.DeserializeFromString<Graph>(file);
 
             // Add edges
-            var dummyLookupTable = new VertexToDummyLookupTable(model.Vertices);
+            var dummyLookupTable = new VertexToDummyLookupTable(model);
             foreach (var edge in model.Edges)
             {
-                var source = dummyLookupTable.Lookup(edge.Path.First());
+                var source = dummyLookupTable.Lookup(edge.Path.First());                
 
                 foreach (var dummy in edge.Path.Skip(1))
-                {
+               {
                     var v = dummyLookupTable.Lookup(dummy);
                     source.Next = v;
                     source = v;
                 }
             }
+
+            VertexSuccestors succ = new VertexSuccestors(dummyLookupTable);
+            succ.BuildSuccestors(model);
 
             return model;
         }

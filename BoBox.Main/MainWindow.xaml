@@ -5,7 +5,7 @@
         xmlns:BoBoxControls="clr-namespace:BoBox.Controls.Vertices;assembly=BoBox.Controls"
         Title="MainWindow" Height="350" Width="525">
     
-    <StackPanel>
+    <Grid>
         <!--
         <Menu>
             <MenuItem Header="_File">
@@ -13,7 +13,9 @@
             </MenuItem>
         </Menu>
         -->
-        <StackPanel x:Name="Graph">            
-        </StackPanel>               
-    </StackPanel>
+        
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+            <BoBox:GraphCanvasControl x:Name="GraphCanvas" Background="Aqua" />
+        </ScrollViewer>
+    </Grid>
 </Window>

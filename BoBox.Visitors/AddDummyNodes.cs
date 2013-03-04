@@ -9,8 +9,8 @@ namespace BoBox.Visitors
 {
     class AddDummyNodes : IVertexVisitor
     {
-        ProprtiesLookupTable<LayeringProperties> LayeringData { get; private set; }
-        Dictionary<int, List<IVertex>> Layers { get; private set; }
+        public ProprtiesLookupTable<LayeringProperties> LayeringData { get; private set; }
+        public Dictionary<int, List<IVertex>> Layers { get; private set; }
 
         public AddDummyNodes(Dictionary<int, List<IVertex>> layers, ProprtiesLookupTable<LayeringProperties> layeringProperties)
         {
@@ -32,14 +32,14 @@ namespace BoBox.Visitors
         {
             for (int sourceLayer = LayeringData.Get(u.Id).Layer - 1; sourceLayer > LayeringData.Get(v.Id).Layer; --sourceLayer)
             {
-                Entities.Dummy dummy = new Entities.Dummy();
-                dummy.Id = string.Format("Dummy_{0}_{1}", u.Id, v.Id);
-                dummy.Label = string.Format("Dummy_{0}_{1}", u.Id, v.Id);
+                //Entities.Dummy dummy = new Entities.Dummy();
+                //dummy.Id = string.Format("Dummy_{0}_{1}", u.Id, v.Id);
+                //dummy.Label = string.Format("Dummy_{0}_{1}", u.Id, v.Id);
                 
                 //var p = u.Outputs.First(d => d.Parent == v)
                     
                 //Layers[sourceLayer]
-                p.Parent = dummy;
+                //p.Parent = dummy;
             }
             
         }
