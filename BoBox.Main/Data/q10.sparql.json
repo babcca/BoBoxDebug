@@ -1,0 +1,83 @@
+{
+	Vertices: [
+		{
+			Type: 'box',
+			Label: '::init_box',
+			Id: 'b1',
+			Inputs: [
+				
+			],
+			Outputs: [
+				'b1_o1'
+			]
+
+		},
+		{
+			Type: 'subgraph',
+			Label: 'main',
+			Id: 'b2',
+			Inputs: [
+				'b2_i1'
+			],
+			Outputs: [
+				'b2_o1'
+			],
+			Vertices: [
+				{
+					Type: 'box',
+					Label: 'main::split_box',
+					Id: 'b3',
+					Inputs: [
+						'b3_i1'
+					],
+					Outputs: [
+						'b3_o1'
+					]
+
+				},
+				{
+					Type: 'box',
+					Label: 'main::IndexScan',
+					Id: 'b7',
+					Inputs: [
+						'b7_i1'
+					],
+					Outputs: [
+						'b7_o1'
+					]
+
+				},
+				{
+					Type: 'box',
+					Label: 'main::Select',
+					Id: 'b6',
+					Inputs: [
+						'b6_i1'
+					],
+					Outputs: [
+						'b6_o1'
+					]
+
+				}
+			]
+		},
+		{
+			Type: 'box',
+			Label: '::term_box',
+			Id: 'b8',
+			Inputs: [
+				'b8_i1'
+			],
+			Outputs: [
+				
+			]
+
+		}
+	],
+	Edges: [
+		 { Id: 'edge_from_b1_o1', Path: [ 'b1_o1', 'b2_i1', 'b3_i1' ] },
+		 { Id: 'edge_from_b3_o1', Path: [ 'b3_o1', 'b7_i1' ] },
+		 { Id: 'edge_from_b6_o1', Path: [ 'b6_o1', 'b2_o1', 'b8_i1' ] },
+		 { Id: 'edge_from_b7_o1', Path: [ 'b7_o1', 'b6_i1' ] }
+	]
+}

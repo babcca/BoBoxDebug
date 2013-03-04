@@ -1,0 +1,7 @@
+obj/
+bin/
+TestResults/
+*.suo
+*.user
+*.cache
+log-file.txt

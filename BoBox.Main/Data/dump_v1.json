@@ -1,0 +1,246 @@
+{
+	"Vertices": [
+		{
+			"Type": "box",
+			"Label": "::init_box",
+			"Id": "b1",
+			"Inputs": [
+			],
+			"Outputs": [
+				{"Id": "b1_o1"}
+			]
+
+		},
+		{
+			"Type": "subgraph",
+			"Label": "main",
+			"Id": "b2",
+			"Inputs": [
+				{"Id": "b2_i1"}
+			],
+			"Outputs": [
+				{"Id": "b2_o1"}
+			],
+			"Vertices": [
+				{
+					"Type": "box",
+					"Label": "_rr_dispatch",
+					"Id": "b18",
+					"Inputs": [
+						{"Id": "b18_i1"}
+					],
+					"Outputs": [
+						{"Id": "b18_o1"},
+						{"Id": "b18_o2"},
+						{"Id": "b18_o3"},
+						{"Id": "b18_o4"}
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "main::source",
+					"Id": "b5",
+					"Inputs": [
+						{"Id": "b5_i1"}
+					],
+					"Outputs": [
+						{"Id": "b5_o1"}
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "main::source",
+					"Id": "b6",
+					"Inputs": [
+						{"Id": "b6_i1"}
+					],
+					"Outputs": [
+						{"Id": "b6_o1"}
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "main::source",
+					"Id": "b7",
+					"Inputs": [
+						{"Id": "b7_i1"}
+					],
+					"Outputs": [
+						{"Id": "b7_o1"}
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "main::source",
+					"Id": "b8",
+					"Inputs": [
+						{"Id": "b8_i1"}
+					],
+					"Outputs": [
+						{"Id": "b8_o1"}
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "main::twoTimes1",
+					"Id": "b10",
+					"Inputs": [
+						{"Id": "b10_i1"}
+					],
+					"Outputs": [
+						{"Id": "b10_o1"}
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "main::twoTimes1",
+					"Id": "b11",
+					"Inputs": [
+						{"Id": "b11_i1"}
+					],
+					"Outputs": [
+						{"Id": "b11_o1"}
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "main::twoTimes1",
+					"Id": "b12",
+					"Inputs": [
+						{"Id": "b12_i1"}
+					],
+					"Outputs": [
+						{"Id": "b12_o1"}
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "main::twoTimes1",
+					"Id": "b13",
+					"Inputs": [
+						{"Id": "b13_i1"}
+					],
+					"Outputs": [
+						{"Id": "b13_o1"}
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "main::twoTimes2",
+					"Id": "b14",
+					"Inputs": [
+						{"Id": "b14_i1"}
+					],
+					"Outputs": [
+						{"Id": "b14_o1"}
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "main::twoTimes2",
+					"Id": "b15",
+					"Inputs": [
+						{"Id": "b15_i1"}
+					],
+					"Outputs": [
+						{"Id": "b15_o1"}
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "main::twoTimes2",
+					"Id": "b16",
+					"Inputs": [
+						{"Id": "b16_i1"}
+					],
+					"Outputs": [
+						{"Id": "b16_o1"}
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "main::twoTimes2",
+					"Id": "b17",
+					"Inputs": [
+						{"Id": "b17_i1"}
+					],
+					"Outputs": [
+						{"Id": "b17_o1"}
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "_rr_aggregate",
+					"Id": "b19",
+					"Inputs": [
+						{"Id": "b19_i1"},
+						{"Id": "b19_i2"},
+						{"Id": "b19_i3"},
+						{"Id": "b19_i4"}
+					],
+					"Outputs": [
+						{"Id": "b19_o1"}
+					]
+
+				},				
+				{
+					"Type": "box",
+					"Label": "main::destination",
+					"Id": "b9",
+					"Inputs": [
+						{"Id": "b9_i1"}
+					],
+					"Outputs": [
+						{"Id": "b9_o1"}
+					]
+
+				}
+			]
+		},
+		{
+			"Type": "box",
+			"Label": "::term_box",
+			"Id": "b20",
+			"Inputs": [
+				{"Id": "b20_i1"}
+			],
+			"Outputs": [
+			]
+
+		}
+	],
+	"Edges": [
+		 { "Id": "edge_from_b10_o1", "Path": [ "b10_o1", "b14_i1" ] },
+		 { "Id": "edge_from_b11_o1", "Path": [ "b11_o1", "b15_i1" ] },
+		 { "Id": "edge_from_b12_o1", "Path": [ "b12_o1", "b16_i1" ] },
+		 { "Id": "edge_from_b13_o1", "Path": [ "b13_o1", "b17_i1" ] },
+		 { "Id": "edge_from_b14_o1", "Path": [ "b14_o1", "b19_i1" ] },
+		 { "Id": "edge_from_b15_o1", "Path": [ "b15_o1", "b19_i2" ] },
+		 { "Id": "edge_from_b16_o1", "Path": [ "b16_o1", "b19_i3" ] },
+		 { "Id": "edge_from_b17_o1", "Path": [ "b17_o1", "b19_i4" ] },
+		 { "Id": "edge_from_b18_o1", "Path": [ "b18_o1", "b5_i1" ] },
+		 { "Id": "edge_from_b18_o2", "Path": [ "b18_o2", "b6_i1" ] },
+		 { "Id": "edge_from_b18_o3", "Path": [ "b18_o3", "b7_i1" ] },
+		 { "Id": "edge_from_b18_o4", "Path": [ "b18_o4", "b8_i1" ] },
+		 { "Id": "edge_from_b19_o1", "Path": [ "b19_o1", "b9_i1" ] },
+		 { "Id": "edge_from_b1_o1", "Path": [ "b1_o1", "b2_i1", "b18_i1" ] },
+		 { "Id": "edge_from_b5_o1", "Path": [ "b5_o1", "b10_i1" ] },
+		 { "Id": "edge_from_b6_o1", "Path": [ "b6_o1", "b11_i1" ] },
+		 { "Id": "edge_from_b7_o1", "Path": [ "b7_o1", "b12_i1" ] },
+		 { "Id": "edge_from_b8_o1", "Path": [ "b8_o1", "b13_i1" ] },
+		 { "Id": "edge_from_b9_o1", "Path": [ "b9_o1", "b2_o1", "b20_i1" ] }
+	]
+}

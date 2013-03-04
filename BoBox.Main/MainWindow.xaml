@@ -1,0 +1,19 @@
+﻿<Window x:Class="BoBox.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
+        xmlns:BoBox="clr-namespace:BoBox.Controls;assembly=BoBox.Controls"
+        xmlns:BoBoxControls="clr-namespace:BoBox.Controls.Vertices;assembly=BoBox.Controls"
+        Title="MainWindow" Height="350" Width="525">
+    
+    <StackPanel>
+        <!--
+        <Menu>
+            <MenuItem Header="_File">
+                <MenuItem Command="ApplicationCommands.Open"  />
+            </MenuItem>
+        </Menu>
+        -->
+        <StackPanel x:Name="Graph">            
+        </StackPanel>               
+    </StackPanel>
+</Window>
