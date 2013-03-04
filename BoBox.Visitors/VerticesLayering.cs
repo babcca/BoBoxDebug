@@ -76,15 +76,17 @@ namespace BoBox.Visitors
 
         public Colors Color { get; set; }
         public int Layer { get; set; }
+        public int Column { get; set; }
 
         public LayeringProperties()
         {
             Color = Colors.White;
             Layer = 0;
+            Column = 0;
         }
     }
 
-    public class TopologicalNumbers : IVertexVisitor<int>
+    public class VerticesLayering : IVertexVisitor<int>
     {
         ProprtiesLookupTable<LayeringProperties> properties;
         Dictionary<string, ProprtiesLookupTable<LayeringProperties>> subgraphLayering = new Dictionary<string, ProprtiesLookupTable<LayeringProperties>>();
@@ -128,44 +130,36 @@ namespace BoBox.Visitors
 
         public int Visit(Entities.Box visited)
         {
-            var me = properties.Get(visited.Id);
-
-            // Vstoupili jsme do nezpracovaneho vrcholu, zpracuj a vrat jeho vrstvu
-            if (me.Color != LayeringProperties.Colors.Black)
-            {
-
-                me.Layer = GetLayer(visited);
-                me.Color = LayeringProperties.Colors.Black;
-            }
-
-            return me.Layer;
+            return GetLayer(visited);
 
         }
 
         public int Visit(Entities.Subgraph visited)
         {
-            var me = properties.Get(visited.Id);
+            return GetLayer(visited);
 
-            // Vstoupili jsme do nezpracovaneho vrcholu, zpracuj a vrat jeho vrstvu
-            if (me.Color != LayeringProperties.Colors.Black)
-            {
-                me.Layer = GetLayer(visited);
-                me.Color = LayeringProperties.Colors.Black;
 
-                // Rozvrstvi vrcholy podgrafu
-                // Nemusime poctat hned, klidne odsunout az bude potreba nebo paralelne
-                // NEROZUMET
-                var sinks = visited.Vertices.Where(v => v.Outputs.Count == 1 && v.Outputs.Select(o => o.Next.Parent).Contains(visited));
-                var b = new TopologicalNumbers();
-                b.ComputeLayers(visited.Vertices, sinks);
-            }
-            return me.Layer;
+            // Rozvrstvi vrcholy podgrafu
+            // Nemusime poctat hned, klidne odsunout az bude potreba nebo paralelne
+            // NEROZUMET
+            //var sinks = visited.Vertices.Where(v => v.Outputs.Count == 1 && v.Outputs.Select(o => o.Next.Parent).Contains(visited));
+            //var b = new TopologicalNumbers();
+            //b.ComputeLayers(visited.Vertices, sinks);            
         }
 
         private int GetLayer(IVertex vertex)
         {
-            int newLayer = vertex.Successtors.Select(s => s.Accept(this)).Max() + 1;
-            return newLayer;
+            var me = properties.Get(vertex.Id);
+            if (me.Color != LayeringProperties.Colors.Black)
+            {
+                var layer = vertex.Successtors.Select(s => s.Accept(this)).Max() + 1;
+                me.Layer = layer;
+                return layer;
+            }
+            else
+            {
+                return me.Layer;
+            }
         }
     }
 }

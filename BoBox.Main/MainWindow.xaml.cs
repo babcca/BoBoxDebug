@@ -33,7 +33,7 @@ namespace BoBox.Main
             var l = new ModelLoader();
             var m = l.LoadFromFile();
 
-            var a = new TopologicalNumbers(m.Vertices, m.Vertices.Where(v => v.Outputs.Count == 0));
+            var a = new VerticesLayering(m.Vertices, m.Vertices.Where(v => v.Outputs.Count == 0));
 
             var c = new ModelToControl();
             var p = c.Transfrom(m);

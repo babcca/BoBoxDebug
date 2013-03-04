@@ -20,6 +20,19 @@ namespace BoBox.Entities
         }
     }
 
+    public class Dummy : Vertex
+    {
+        public override void Accept(IVertexVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
+        public override TResult Accept<TResult>(IVertexVisitor<TResult> visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
     public class Subgraph : Vertex
     {
         public List<IVertex> Vertices { get; set; }
