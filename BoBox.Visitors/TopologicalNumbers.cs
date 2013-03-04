@@ -88,8 +88,10 @@ namespace BoBox.Visitors
     {
         ProprtiesLookupTable<LayeringProperties> properties;
         Dictionary<string, ProprtiesLookupTable<LayeringProperties>> subgraphLayering = new Dictionary<string, ProprtiesLookupTable<LayeringProperties>>();
-        
-        public TopologicalNumbers(IEnumerable<IVertex> vertices, IEnumerable<IVertex> sinks)
+
+
+
+        public Dictionary<int, List<IVertex>> ComputeLayers(IEnumerable<IVertex> vertices, IEnumerable<IVertex> sinks)
         {
             properties = ProprtiesLookupTable<LayeringProperties>.Build(vertices);
 
@@ -100,10 +102,28 @@ namespace BoBox.Visitors
             }
 
             // Rekurzivne dopocitej vrsty pro ostatni vrcholy
+            // [TODO] Nejlepe pro source (v podgrafech to jsou Intputs)
             foreach (var vertex in vertices)
             {
                 vertex.Accept(this);
             }
+
+            Dictionary<int, List<IVertex>> layers = new Dictionary<int, List<IVertex>>();
+
+            foreach (var item in properties.Table)
+            {
+                List<IVertex> layer;
+                if (!layers.TryGetValue(item.Value.Layer, out layer))
+                {
+
+                }
+                else
+                {
+                    layer.Add(vertices.First(v => v.Id == item.Key));
+                }
+            }
+
+            return layers;
         }
 
         public int Visit(Entities.Box visited)
@@ -113,7 +133,8 @@ namespace BoBox.Visitors
             // Vstoupili jsme do nezpracovaneho vrcholu, zpracuj a vrat jeho vrstvu
             if (me.Color != LayeringProperties.Colors.Black)
             {
-                me.Layer = ProcessVertex(visited);
+
+                me.Layer = GetLayer(visited);
                 me.Color = LayeringProperties.Colors.Black;
             }
 
@@ -128,20 +149,23 @@ namespace BoBox.Visitors
             // Vstoupili jsme do nezpracovaneho vrcholu, zpracuj a vrat jeho vrstvu
             if (me.Color != LayeringProperties.Colors.Black)
             {
-                me.Layer = ProcessVertex(visited);
+                me.Layer = GetLayer(visited);
                 me.Color = LayeringProperties.Colors.Black;
 
                 // Rozvrstvi vrcholy podgrafu
+                // Nemusime poctat hned, klidne odsunout az bude potreba nebo paralelne
+                // NEROZUMET
                 var sinks = visited.Vertices.Where(v => v.Outputs.Count == 1 && v.Outputs.Select(o => o.Next.Parent).Contains(visited));
-                new TopologicalNumbers(visited.Vertices, sinks);
+                var b = new TopologicalNumbers();
+                b.ComputeLayers(visited.Vertices, sinks);
             }
-
             return me.Layer;
         }
 
-        private int ProcessVertex(IVertex vertex)
+        private int GetLayer(IVertex vertex)
         {
-            return vertex.Successtors.Select(s => s.Accept(this)).Max() + 1;
+            int newLayer = vertex.Successtors.Select(s => s.Accept(this)).Max() + 1;
+            return newLayer;
         }
     }
 }
