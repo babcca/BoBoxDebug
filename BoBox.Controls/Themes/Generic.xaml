@@ -49,11 +49,7 @@
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
                         <Border CornerRadius="10,10,10,10" BorderThickness="5" BorderBrush="Pink">
-                            <Expander Header="{TemplateBinding Label}" Background="White" FontWeight="Bold" IsExpanded="False">
-                                <StackPanel Margin="10,0,0,0">
-                                    <Label Content="Ahoj svete" />
-                                </StackPanel>
-                            </Expander>
+                            <Label Content="{TemplateBinding Label}"  Background="White" FontWeight="Bold" />
                         </Border>
                         <ItemsControl ItemsSource="{TemplateBinding Output}" >
                             <ItemsControl.ItemTemplate>
@@ -77,13 +73,39 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type vertices:SubgraphControl}">
-                    <Border CornerRadius="10,10,10,10" BorderThickness="5" BorderBrush="Red" Margin="10,10,10,10">
-                        <Expander Header="{TemplateBinding Label}" IsExpanded="{TemplateBinding IsExpand}" Background="White" FontWeight="Bold">
-                            <StackPanel>
-                                <local:GraphCanvasControl GraphLayers="{TemplateBinding GraphLayers}" />
-                            </StackPanel>
-                        </Expander>
-                    </Border>
+                    <StackPanel Margin="10,10,10,10">
+                        <ItemsControl ItemsSource="{TemplateBinding Input}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ContentPresenter Content="{Binding}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                        <Border CornerRadius="10,10,10,10" BorderThickness="5" BorderBrush="Red">
+                            <Expander Header="{TemplateBinding Label}" IsExpanded="{TemplateBinding IsExpand}" Background="White" FontWeight="Bold">
+                                <StackPanel>
+                                    <local:GraphCanvasControl GraphLayers="{TemplateBinding GraphLayers}" />
+                                </StackPanel>
+                            </Expander>
+                        </Border>
+                        <ItemsControl ItemsSource="{TemplateBinding Output}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ContentPresenter Content="{Binding}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -92,11 +114,11 @@
     <Style TargetType="{x:Type local:EdgeControl}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:EdgeControl}">                    
+                <ControlTemplate TargetType="{x:Type local:EdgeControl}">
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-               
+
 </ResourceDictionary>

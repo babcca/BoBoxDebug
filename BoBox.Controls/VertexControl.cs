@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 
 using BoBox.Entities.Interfaces;
 using BoBox.Entities;
+using System.Collections.ObjectModel;
+using BoBox.Controls.Vertices;
 
 namespace BoBox.Controls
 {
@@ -25,6 +27,9 @@ namespace BoBox.Controls
             LabelProperty = DependencyProperty.Register("Label", typeof(string), typeof(VertexControl));
             XProperty = DependencyProperty.Register("X", typeof(double), typeof(VertexControl));
             YProperty = DependencyProperty.Register("Y", typeof(double), typeof(VertexControl));
+
+            InputProperty = DependencyProperty.Register("Input", typeof(ObservableCollection<DummyControl>), typeof(VertexControl));
+            OutputProperty = DependencyProperty.Register("Output", typeof(ObservableCollection<DummyControl>), typeof(VertexControl));
         }
 
         public VertexControl()
@@ -37,6 +42,19 @@ namespace BoBox.Controls
         {
             Vertex = vertex;
             Label = vertex.Label;
+
+            Input = new ObservableCollection<DummyControl>();
+            foreach (var item in vertex.Inputs)
+            {
+                Input.Add(new DummyControl());
+            }
+
+            Output = new ObservableCollection<DummyControl>();
+            foreach (var item in vertex.Outputs)
+            {
+                Output.Add(new DummyControl());
+            }
+
         }
 
         #region IVertex decorator
@@ -105,6 +123,9 @@ namespace BoBox.Controls
         public static readonly DependencyProperty LabelProperty;
         public static readonly DependencyProperty XProperty;
         public static readonly DependencyProperty YProperty;
+
+        public static readonly DependencyProperty OutputProperty;
+        public static readonly DependencyProperty InputProperty;
         #endregion                      
 
         #region Properties
@@ -125,6 +146,20 @@ namespace BoBox.Controls
             get { return (double) GetValue(YProperty); }
             set { SetValue(YProperty, value); }
         }
+        
+        public ObservableCollection<DummyControl> Input
+        {
+            get { return GetValue(InputProperty) as ObservableCollection<DummyControl>; }
+            set { SetValue(InputProperty, value); }
+        }
+
+        
+        public ObservableCollection<DummyControl> Output
+        {
+            get { return GetValue(OutputProperty) as ObservableCollection<DummyControl>; }
+            set { SetValue(OutputProperty, value); }
+        }
+
         #endregion
     }
 }

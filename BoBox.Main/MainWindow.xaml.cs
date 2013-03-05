@@ -31,7 +31,7 @@ namespace BoBox.Main
             InitializeComponent();
 
             var l = new ModelLoader();
-            var m = l.LoadFromFile("Data/q3c.sparql.json");           
+            var m = l.LoadFromFile("Data/q7.sparql.json");           
 
             var c = new ModelToControl();
             var p = c.Transfrom(m);
