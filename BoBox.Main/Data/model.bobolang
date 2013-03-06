@@ -1,0 +1,9 @@
+model main<()><()> {
+
+	bobox::stateless_dummy<()><()> stateless;
+	bobox::stateful_dummy<()><()> stateful;
+	bobox::parallel_dummy<()><()> parallel;
+
+	input -> stateless -> stateful -> parallel -> output;
+
+}

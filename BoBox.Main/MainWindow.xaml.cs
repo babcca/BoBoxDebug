@@ -16,6 +16,11 @@ using System.Windows.Shapes;
 using BoBox.Deserializer;
 using BoBox.Visitors;
 using BoBox.Entities;
+using Microsoft.Win32;
+using System.IO;
+using System.Xml;
+using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 
 namespace BoBox.Main
 {
@@ -29,15 +34,76 @@ namespace BoBox.Main
         public MainWindow()
         {
             InitializeComponent();
+            LoadAllNeccessaryThings();
+            Funq.Container con = new Funq.Container();
+
 
             var l = new ModelLoader();
-            var m = l.LoadFromFile("Data/q7.sparql.json");           
+            var m = l.LoadFromFile("Data/q7.sparql.json");
 
             var c = new ModelToControl();
             var p = c.Transfrom(m);
 
             GraphCanvas.GraphLayers = p;
+
+        }
+
+        private void MenuItem_BoBox_Open(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog browser = new OpenFileDialog();
+            browser.ValidateNames = true;            
+            browser.Filter = "BoBolang source | *.bobolang;*.txt";
+            //browser.FilterIndex = 1;
+            bool? result = browser.ShowDialog();
+
+            if (result.HasValue && result.Value)
+            {
+                var editor = new Editor.BoBolangEditor(browser.FileName);
+                editor.AtacheToPane(MainDocumentsPane);
+            }
+        }
+
+        private void MenuItem_BoBox_New(object sender, RoutedEventArgs e)
+        {            
+            SaveFileDialog browser = new SaveFileDialog();
+            browser.Filter = "BoBolang source | *.bobolang";
+            browser.AddExtension = true;                        
+            browser.OverwritePrompt = true;
+            browser.ValidateNames = true;
+            
+            bool? result = browser.ShowDialog();
+
+            if (result.HasValue && result.Value)
+            {
+                var editor = new Editor.BoBolangEditor(browser.FileName);
+                editor.AtacheToPane(MainDocumentsPane);
+            }            
             
         }
+
+        private void LoadAllNeccessaryThings()
+        {
+            var syntaxFiles = Directory.EnumerateFiles("./Syntax/", "*.xshd", SearchOption.TopDirectoryOnly);
+
+            foreach (var syntaxFile in syntaxFiles)
+            {
+                string name = System.IO.Path.GetFileNameWithoutExtension(syntaxFile);
+                string extension = string.Format(".{0}", name.ToLower());
+                
+                HighlightingManager.Instance.RegisterHighlighting(name, new string[] { extension }, () => LoadHighlighting(syntaxFile));
+            }
+        }
+
+        private IHighlightingDefinition LoadHighlighting(string fileName)
+        {
+            using (var syntax = File.OpenRead(fileName))
+            {
+                using (XmlTextReader reader = new XmlTextReader(syntax))
+                {
+                    var highlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
+                    return highlighting;
+                }
+            }
+        }        
     }
 }

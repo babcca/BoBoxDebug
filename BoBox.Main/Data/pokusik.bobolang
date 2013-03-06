@@ -1,0 +1,5 @@
+model main()
+{
+	bobox::input a;
+	input -> a -> outputl
+}
