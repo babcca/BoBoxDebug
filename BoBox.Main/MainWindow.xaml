@@ -3,53 +3,82 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
         xmlns:BoBox="clr-namespace:BoBox.Controls;assembly=BoBox.Controls"
         xmlns:BoBoxControls="clr-namespace:BoBox.Controls.Vertices;assembly=BoBox.Controls"
+        xmlns:Local="clr-namespace:BoBox.Main.Editor"
         xmlns:AvalonDock="http://avalondock.codeplex.com"
         xmlns:AvalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
         Title="MainWindow" Height="350" Width="525">
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="24"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="24"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Menu>
-            <MenuItem Header="_File">
-                <MenuItem Command="ApplicationCommands.Open"  />
-                <MenuItem Header="_BoBox">
-                    <MenuItem Header="New" Click="MenuItem_BoBox_New"/>
-                    <MenuItem Header="Open" Click="MenuItem_BoBox_Open"/>
+            <MenuItem Header="_FILE">                
+                <MenuItem Header="_New">
+                    <MenuItem Header="New BoBox source" Click="MenuItem_BoBox_New"/>
                 </MenuItem>
-                <MenuItem Header="_Model">                    
-                    <MenuItem Header="Open" />
-                </MenuItem>
-                <MenuItem Header="_Save opened" />
+                
+                <MenuItem Header="_Open">                    
+                    <MenuItem Header="Open BoBox source" Click="MenuItem_BoBox_Open"/>
+                    <MenuItem Header="Open model graph" Click="MenuItem_Graph_Open"/>
+                </MenuItem>                
                 <Separator/>
                 <MenuItem Header="_Exit" InputGestureText="Alt + F4" />
             </MenuItem>
-        </Menu>        
-        <AvalonDock:DockingManager x:Name="dockManager" Grid.Row="1">
+
+            <MenuItem Header="_VIEWS">
+                <MenuItem Header="Toolbars">
+                    <MenuItem x:Name="Menu_Toolbar_BoBolang" Header="BoBolang"  IsCheckable="True"  />
+                </MenuItem>
+            </MenuItem>
+            
+            <MenuItem Header="_TOOLS">
+                <MenuItem Header="Options" />                
+            </MenuItem>
+        </Menu>   
+        <ToolBarTray Grid.Row="1">
+            <ToolBar Visibility="Collapsed">
+                <Button Content="Generuj graf" />
+                <Button Content="Generuj graf" />
+                <Button Content="Generuj graf" />
+            </ToolBar>
+            
+            
+            <ToolBar>
+                <Button Content="Build" Click="Build_Click" />
+                <Button Content="Generuj graf 2" />
+                <Button Content="Generuj graf 2" />
+            </ToolBar>
+        </ToolBarTray>
+        
+        <AvalonDock:DockingManager x:Name="dockManager" Grid.Row="2" >
             <AvalonDock:LayoutRoot>
-                <AvalonDock:LayoutPanel>
-                    <AvalonDock:LayoutDocumentPane x:Name="MainDocumentsPane">                        
-                        <AvalonDock:LayoutDocument CanClose="False" CanFloat="True" Title="Vygenerovany graf">
-                            <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-                                <BoBox:GraphCanvasControl x:Name="GraphCanvas" Background="Aqua" />
-                            </ScrollViewer>
-                        </AvalonDock:LayoutDocument>                        
-                    </AvalonDock:LayoutDocumentPane>                    
+                <AvalonDock:LayoutPanel>                    
+                                        
+
+                    <Local:TabManager x:Name="MainDocumentsPane">                        
+                    </Local:TabManager>
                     
-                    <AvalonDock:LayoutAnchorablePane>
+                    <AvalonDock:LayoutAnchorablePane  DockMinWidth="200">
                         <AvalonDock:LayoutAnchorable CanClose="False" CanAutoHide="True" Title="Events" />
                         <AvalonDock:LayoutAnchorable CanClose="False" CanAutoHide="True" Title="Properties" />
-                    </AvalonDock:LayoutAnchorablePane>                    
+                        <AvalonDock:LayoutAnchorable>
+                            <TextBox AcceptsReturn="True" x:Name="MainConsole" Text="{Binding Console.Logs}"/>
+                        </AvalonDock:LayoutAnchorable>
+                    </AvalonDock:LayoutAnchorablePane>
                 </AvalonDock:LayoutPanel>
             </AvalonDock:LayoutRoot>
                             
         </AvalonDock:DockingManager>        
 
-        <StatusBar Grid.Row="2">
+        <StatusBar Grid.Row="3">            
             <StatusBarItem Content="status bar"/>
+            <StatusBarItem>
+                <ProgressBar IsIndeterminate="True" Value="50" />
+            </StatusBarItem>            
         </StatusBar>
     </Grid>
 </Window>

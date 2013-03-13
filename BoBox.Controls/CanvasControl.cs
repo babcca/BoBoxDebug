@@ -17,6 +17,8 @@ namespace BoBox.Controls
         public static readonly DependencyProperty GraphVertexProperty;
         public static readonly DependencyProperty GraphLayersProperty;
 
+        public EdgeControl e;
+
         public List<VertexControl> GraphVertex
         {
             get { return GetValue(GraphVertexProperty) as List<VertexControl>; }
@@ -41,23 +43,30 @@ namespace BoBox.Controls
             var graph = d as GraphCanvasControl;
             graph.Children.Add(graph.GraphLayers);
             //graph.UpdateLayout();
-            foreach (var layer in graph.GraphLayers.Children)
-            {
-                var l = new Line();
-                l.Stroke = Brushes.Black;
-                l.X1 = 100;
-                l.Y1 = 10;
+            //foreach (var layer in graph.GraphLayers.Children)
+            //{
+            //    var l = new Line();
+            //    l.Stroke = Brushes.Black;
+            //    l.X1 = 100;
+            //    l.Y1 = 10;
 
-                l.Y2 = 100;
-                l.Y2 = 100;
+            //    l.Y2 = 100;
+            //    l.Y2 = 100;
 
-                graph.Children.Add(l);
-            }
-
+            //    graph.Children.Add(l);
+            //}
+            //graph.e = new EdgeControl() { Source = ((VertexControl)(((StackPanel)((StackPanel)graph.Children[0]).Children[1]).Children[0])).Input[0], Target = ((VertexControl)(((StackPanel)((StackPanel)graph.Children[0]).Children[1]).Children[0])).Output[0] };            
+            //graph.Children.Add(graph.e);            
         }
 
         protected static void Vertex_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
+        }
+
+        protected override void OnRender(DrawingContext dc)
+        {
+            base.OnRender(dc);
+            //e.RenderLine();
         }
 
 

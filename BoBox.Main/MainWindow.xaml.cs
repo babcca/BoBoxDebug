@@ -21,6 +21,7 @@ using System.IO;
 using System.Xml;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using BoBox.Controls;
 
 namespace BoBox.Main
 {
@@ -30,22 +31,29 @@ namespace BoBox.Main
     public partial class MainWindow : Window
     {
         public Graph Model { get; set; }
+        Funq.Container con = new Funq.Container();
+
+        ViewModel.MainViewModel model = new ViewModel.MainViewModel();
 
         public MainWindow()
         {
             InitializeComponent();
             LoadAllNeccessaryThings();
-            Funq.Container con = new Funq.Container();
+            
+            con.Register<BoBox.Utils.IConsole>((cc) => model.Console);
+            con.Register<EdgeControl>((cc) => new EdgeControl() { Console = cc.Resolve<BoBox.Utils.IConsole>() });
+            con.Register<Editor.BoBographTab, string>((cc, fileName) => new Editor.BoBographTab(fileName) { Console = cc.Resolve<BoBox.Utils.IConsole>() });
+            //var e = con.Resolve<EdgeControl>();
+            //var l = new ModelLoader();
+            //var m = l.LoadFromFile("Data/q7.sparql.json");
+            new Editor.BoBographTab("Data/q3c.sparql.json").AtacheToPane(MainDocumentsPane);                
 
+            //var c = new ModelToControl();
+            //var p = c.Transfrom(m);
 
-            var l = new ModelLoader();
-            var m = l.LoadFromFile("Data/q7.sparql.json");
+            //GraphCanvas.GraphLayers = p;
 
-            var c = new ModelToControl();
-            var p = c.Transfrom(m);
-
-            GraphCanvas.GraphLayers = p;
-
+            DataContext = model;            
         }
 
         private void MenuItem_BoBox_Open(object sender, RoutedEventArgs e)
@@ -60,6 +68,7 @@ namespace BoBox.Main
             {
                 var editor = new Editor.BoBolangEditor(browser.FileName);
                 editor.AtacheToPane(MainDocumentsPane);
+                model.o.Add(editor);
             }
         }
 
@@ -104,6 +113,30 @@ namespace BoBox.Main
                     return highlighting;
                 }
             }
+        }
+
+        private void Build_Click(object sender, RoutedEventArgs e)
+        {
+            FileExecution fe = new FileExecution();
+            fe.Console = model.Console;
+            fe.Run("ls.exe");
+        }
+
+        private void MenuItem_Graph_Open(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog browser = new OpenFileDialog();
+            browser.ValidateNames = true;
+            browser.Filter = "Graph source | *.json";
+            //browser.FilterIndex = 1;
+            bool? result = browser.ShowDialog();
+
+            if (result.HasValue && result.Value)
+            {
+                var graph = new Editor.BoBographTab(browser.FileName);                
+                graph.AtacheToPane(MainDocumentsPane);                
+            }
+
+            
         }        
     }
 }

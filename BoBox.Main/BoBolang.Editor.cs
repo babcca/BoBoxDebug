@@ -1,4 +1,6 @@
 ﻿using AvalonDock.Layout;
+using BoBox.Deserializer;
+using BoBox.Visitors;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Highlighting;
@@ -9,15 +11,95 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace BoBox.Main.Editor
 {
-    public class BoBolangEditor : LayoutDocument
+
+    public class TabManager : LayoutDocumentPane
+    {
+        public TabManager()
+        {            
+        }
+
+        private BaseTab GetActiveTab()
+        {
+            return this.Children.First(c => c.IsActive == true) as BaseTab;
+        }
+
+        public string ActiveTab { get { return this.SelectedContent.Title; } }
+    }
+
+    public class BaseTab : LayoutDocument
+    {
+        public bool IsAtached { get; set; }
+
+        public BaseTab()
+        {
+            IsActiveChanged += BaseTab_IsActiveChanged;
+        }
+
+        void BaseTab_IsActiveChanged(object sender, EventArgs e)
+        {
+            var a = sender as BaseTab;
+            // a.accept(toolbarVisitor)            
+        }
+
+        public void AtacheToPane(LayoutDocumentPane pane)
+        {
+            pane.Children.Add(this);
+        }
+
+        protected void TouchFile(string fileName)
+        {
+            if (!File.Exists(fileName))
+            {
+                File.Create(fileName).Close();
+            }
+        }
+        protected string GetDocumentTitle(string fileName)
+        {
+            return Path.GetFileName(fileName);
+        }
+
+        protected string GetDocumentTooltip(string fileName)
+        {
+            return Path.GetFullPath(fileName);
+        }
+
+    }
+
+    public class BoBographTab : BaseTab
+    {
+        public BoBox.Utils.IConsole Console { get; set; }
+
+        public BoBographTab(string sourceFile)
+        {            
+            var l = new ModelLoader();
+            var m = l.LoadFromFile(sourceFile);
+            var c = new ModelToControl();
+            var p = c.Transfrom(m);
+            
+            var model = new BoBox.Controls.GraphCanvasControl();
+            model.GraphLayers = p;
+
+            var scroll = new ScrollViewer() { HorizontalScrollBarVisibility = ScrollBarVisibility.Visible };
+            scroll.Content = model;
+            Content = scroll;
+
+            Title = GetDocumentTitle(sourceFile);
+            ToolTip = GetDocumentTooltip(sourceFile);
+
+            IsSelected = true;
+        }
+    }
+
+    public class BoBolangEditor : BaseTab
     {
         public bool IsChanged { get; private set; }
         public string FileName { get; private set; }
         public TextDocument Document { get; private set; }
-         
+
         public BoBolangEditor(string sourceFile)
         {
             TouchFile(sourceFile);
@@ -59,10 +141,6 @@ namespace BoBox.Main.Editor
             }
         }
 
-        public void AtacheToPane(LayoutDocumentPane pane)
-        {
-            pane.Children.Add(this);
-        }
 
         protected TextEditor GetTextEditor(string sourceFile)
         {
@@ -83,24 +161,6 @@ namespace BoBox.Main.Editor
                 IsChanged = true;
                 Title = string.Format("* {0}", Title);
             }
-        }
-
-        protected void TouchFile(string fileName)
-        {
-            if (!File.Exists(fileName))
-            {
-                File.Create(fileName).Close();
-            }
-        }
-        protected string GetDocumentTitle(string fileName)
-        {
-            return Path.GetFileName(fileName);            
-        }
-
-        protected string GetDocumentTooltip(string fileName)
-        {
-            return Path.GetFullPath(fileName);
-        }
-        
+        }       
     }
 }

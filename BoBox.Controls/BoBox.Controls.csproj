@@ -90,6 +90,10 @@
       <Project>{ee0ef266-2015-4682-acd5-c5711131e11e}</Project>
       <Name>BoBox.Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BoBox.Utils\BoBox.Utils.csproj">
+      <Project>{2202e1d6-1aae-4aa8-9a83-8f2bd2f7cf5c}</Project>
+      <Name>BoBox.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

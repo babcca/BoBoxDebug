@@ -74,6 +74,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="FileExecution.cs" />
+    <Compile Include="ViewModel\TabsViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -83,6 +85,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BoBolang.Editor.cs" />
+    <Compile Include="Config\Config.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -106,6 +109,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Config\settings.json" />
     <None Include="Data\dump_v1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -141,6 +145,7 @@
     <AppDesigner Include="Properties\" />
     <None Include="Syntax\BoBolang.xshd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +163,10 @@
     <ProjectReference Include="..\BoBox.Entities\BoBox.Entities.csproj">
       <Project>{ee0ef266-2015-4682-acd5-c5711131e11e}</Project>
       <Name>BoBox.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BoBox.Utils\BoBox.Utils.csproj">
+      <Project>{2202e1d6-1aae-4aa8-9a83-8f2bd2f7cf5c}</Project>
+      <Name>BoBox.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\BoBox.Visitors\BoBox.Visitors.csproj">
       <Project>{9ae00d9b-559c-4d2e-9fb8-9620c70e0ff2}</Project>

@@ -44,10 +44,10 @@ namespace BoBox.Controls
             Label = vertex.Label;
 
             Input = new ObservableCollection<DummyControl>();
-            foreach (var item in vertex.Inputs)
-            {
-                Input.Add(new DummyControl());
-            }
+            //foreach (var item in vertex.Inputs)
+            //{
+            //    Input.Add(new DummyControl());
+            //}
 
             Output = new ObservableCollection<DummyControl>();
             foreach (var item in vertex.Outputs)

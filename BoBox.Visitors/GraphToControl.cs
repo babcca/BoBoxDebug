@@ -66,7 +66,12 @@ namespace BoBox.Visitors
 
         public VertexControl Visit(Box visited)
         {
-            return new BoxControl(visited);
+            var box = new BoxControl(visited);
+            foreach (var item in visited.Inputs)
+            {
+                box.Input.Add(new DummyControl());
+            }
+            return box;
         }
 
         public VertexControl Visit(Subgraph visited)

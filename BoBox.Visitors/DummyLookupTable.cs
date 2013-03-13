@@ -1,6 +1,6 @@
 ﻿using BoBox.Entities;
 using BoBox.Entities.Interfaces;
-
+using System.Diagnostics.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +21,9 @@ namespace BoBox.Visitors
 
         private void SetVertices(List<IVertex> vertices)
         {
+            Contract.Assert(vertices != null, "Vertices not loaded");            
+            Contract.Assert(vertices.Count > 0, "Vertices are empty");
+
             foreach (var vertex in vertices)
             {
                 vertex.Accept(this);
