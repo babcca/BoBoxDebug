@@ -9,8 +9,8 @@ namespace BoBox.Visitors
 {
     public class VertexSuccestors : IVertexVisitor
     {
-        VertexToDummyLookupTable DummyTable_;
-        public VertexSuccestors(VertexToDummyLookupTable dummyTable)
+        VertexToDummyCreateAndLookupTable DummyTable_;
+        public VertexSuccestors(VertexToDummyCreateAndLookupTable dummyTable)
         {
             DummyTable_ = dummyTable;
         }
@@ -25,17 +25,29 @@ namespace BoBox.Visitors
 
         public void Visit(Entities.Box visited)
         {
-            visited.Successtors = visited.Outputs.Select(i => DummyTable_.Lookup(i).Next.Parent);
+            // [TODO] snad zachovava poradi
+            visited.Successtors = visited.Outputs.Select(i =>
+                {
+                    var ancestor = DummyTable_.Lookup(i);
+                    var successtor = ancestor.Next.Parent;
+                    //ancestor.Next
+                    //visited.
+
+                    return successtor;
+                }
+            );
+            visited.SuccesstorDumimes = visited.Outputs.Select(i => DummyTable_.Lookup(i).Next);            
         }
 
         public void Visit(Entities.Subgraph visited)
         {
             visited.Successtors = visited.Outputs.Select(i => DummyTable_.Lookup(i).Next.Parent);
+            visited.SuccesstorDumimes = visited.Outputs.Select(i => DummyTable_.Lookup(i).Next);
 
             foreach (var item in visited.Vertices)
             {
                 item.Accept(this);
             }
         }
-    }
+    }    
 }

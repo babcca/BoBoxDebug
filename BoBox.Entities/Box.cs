@@ -58,8 +58,21 @@ namespace BoBox.Entities
     public class DummyVertex
     {
         public string Id { get; set; }
+        
+        /// <summary>
+        /// Nactena data k vrcholu
+        /// </summary>
         public IVertex Parent { get; set; }
+        
+        /// <summary>
+        /// Nasledujici Dummy vrchol
+        /// </summary>
         public DummyVertex Next { get; set; }
+
+        /// <summary>
+        /// WPF Control objektu ktery se vykresluje
+        /// </summary>
+        public IDummyControl Control { get; set; }
     }
 
 }

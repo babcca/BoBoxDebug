@@ -1,5 +1,4 @@
-﻿using BoBox.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,16 +51,11 @@ namespace BoBox.Controls.Vertices
             }
 
         }
-
+       
         public SubgraphControl()
             : base()
         {
 
-        }
-
-        public SubgraphControl(Subgraph vertex)
-            : base(vertex)
-        {
         }
 
         public delegate void OnFirstExpandHandler(List<VertexControl> vertices);

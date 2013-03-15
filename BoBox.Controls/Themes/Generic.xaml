@@ -25,10 +25,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type vertices:DummyControl}">
-                    <StackPanel>
-                        <Rectangle Width="10" Height="10" Stroke="Black" Fill="Cornsilk" StrokeThickness="1" />
-                        <TextBox Text="{TemplateBinding test}" Width="50"/>
-                    </StackPanel>
+                    <!--<StackPanel Background="DarkCyan">-->
+                    <Rectangle Width="10" Height="10" Stroke="Black" Fill="Cornsilk" StrokeThickness="1" Margin="5 0 5 0" />
+                        <!--<TextBox Text="{TemplateBinding test}" Width="50"/>-->
+                    <!--</StackPanel>-->
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -38,6 +38,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type vertices:BoxControl}">
+                    <Border BorderThickness="0" BorderBrush="Black">
                     <StackPanel Margin="10,10,10,10">
                         <ItemsControl ItemsSource="{TemplateBinding Input}">
                             <ItemsControl.ItemTemplate>
@@ -47,7 +48,7 @@
                             </ItemsControl.ItemTemplate>
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal" Width="{TemplateBinding Width}"/>
+                                    <StackPanel Orientation="Horizontal" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
@@ -67,6 +68,7 @@
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
                     </StackPanel>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -76,6 +78,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type vertices:SubgraphControl}">
+                    <Border BorderBrush="Orange" BorderThickness="0">
                     <StackPanel Margin="10,10,10,10">
                         <ItemsControl ItemsSource="{TemplateBinding Input}">
                             <ItemsControl.ItemTemplate>
@@ -109,6 +112,7 @@
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
                     </StackPanel>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -123,7 +127,7 @@
                             <LineGeometry StartPoint="{Binding Path=Source.X}" />
                         </Path.Data>
                     </Path>-->
-                    <Line X1="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Source.X}"  Y1="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Source.Y}" X2="{TemplateBinding TargetX}" Y2="{TemplateBinding TargetY}" Stroke="Green">                        
+                    <Line X1="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=local:CanvasControl.Left}"  Y1="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Source.Y}" X2="{TemplateBinding TargetX}" Y2="{TemplateBinding TargetY}" Stroke="Green">                        
                     </Line>
                 </ControlTemplate>
             </Setter.Value>

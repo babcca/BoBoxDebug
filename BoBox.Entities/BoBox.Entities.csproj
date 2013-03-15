@@ -43,6 +43,7 @@
     <Compile Include="Edge.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="Interfaces\IAccept.cs" />
+    <Compile Include="Interfaces\IDummyControl.cs" />
     <Compile Include="Interfaces\IType.cs" />
     <Compile Include="Interfaces\IVertex.cs" />
     <Compile Include="Interfaces\IVisitor.cs" />

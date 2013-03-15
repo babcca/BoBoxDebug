@@ -48,7 +48,7 @@ namespace BoBox.Visitors
 
             foreach (var vertex in visited.Vertices)
             {
-               //vertex.Accept(this);
+                //vertex.Accept(this);
             }
         }
     }
@@ -86,6 +86,10 @@ namespace BoBox.Visitors
         }
     }
 
+
+
+
+
     public class VerticesLayering : IVertexVisitor<int>
     {
         ProprtiesLookupTable<LayeringProperties> properties;
@@ -109,7 +113,7 @@ namespace BoBox.Visitors
             {
                 vertex.Accept(this);
             }
-            
+
             Dictionary<int, List<IVertex>> layers = new Dictionary<int, List<IVertex>>();
             foreach (var item in properties.Table)
             {
@@ -132,6 +136,27 @@ namespace BoBox.Visitors
         {
             return GetLayer(visited);
 
+            //var me = properties.Get(visited.Id);
+            //if (me.Color != LayeringProperties.Colors.Black)
+            //{
+            //    var layer = visited.SuccesstorDumimes.Select(s => s.Parent.Accept(this)).Max() + 1;
+                
+            //    foreach (var item in visited.OutputDummies)
+            //    {
+            //        Entities.Edge e = new Entities.Edge();
+            //        e.SourceDummy = item;
+            //        e.TargetDummy = item.Next;                    
+            //    }
+
+            //    me.Layer = layer;
+            //    me.Color = LayeringProperties.Colors.Black;
+            //    return layer;
+            //}
+            //else
+            //{
+            //    return me.Layer;
+            //}
+
         }
 
         public int Visit(Entities.Subgraph visited)
@@ -147,6 +172,7 @@ namespace BoBox.Visitors
             //b.ComputeLayers(visited.Vertices, sinks);            
         }
 
+        // nedava smysl zahazuju informaci o typu vrcholu
         private int GetLayer(IVertex vertex)
         {
             var me = properties.Get(vertex.Id);

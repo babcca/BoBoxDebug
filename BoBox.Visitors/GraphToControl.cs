@@ -13,19 +13,31 @@ using System.Windows.Controls;
 
 namespace BoBox.Visitors
 {
+
+   
+
     public class ModelToControl : IVertexVisitor<VertexControl>
     {
-
+        public static Dictionary<DummyVertex, DummyControl> CreatedControls = new Dictionary<DummyVertex, DummyControl>();
+        
         protected StackPanel Transfrom(List<IVertex> vertices, IEnumerable<IVertex> sinks)
         {
+            
             VerticesLayering LayeringProcessor = new VerticesLayering();
             var la = LayeringProcessor.ComputeLayers(vertices, sinks);
-
+            
             StackPanel msp = new StackPanel();
-            foreach (var layer in la)
+            for (int i = la.Count - 1; i >= 0; --i)
             {
-                msp.Children.Add(ProcesVertices(layer.Value));
+                System.Diagnostics.Debug.WriteLine(i);
+                msp.Children.Add(ProcesVertices(la[i]));
+                
             }
+            //foreach (var layer in la)
+            //{
+            //    System.Diagnostics.Debug.WriteLine(layer.Key);
+            //    msp.Children.Add(ProcesVertices(layer.Value));
+            //}
 
             //var vertices = ProcesVertices(model.Vertices);
 
@@ -37,15 +49,29 @@ namespace BoBox.Visitors
             //{
             //    canvas.Children.Add(item);
             //}
-
+            var canvas = new BoBox.Controls.GraphCanvasControl();
+            //canvas.GraphLayers = 
             return msp;
         }
         public StackPanel Transfrom(Graph model)
         {
-            foreach (var item in model.Edges)
+            DummyLookupTable = new VertexToDummyCreateAndLookupTable(model);
+            // Add edges            
+            foreach (var edge in model.Edges)
             {
-                //item.Path
+                var source = DummyLookupTable.Lookup(edge.Path.First());
+
+                foreach (var dummy in edge.Path.Skip(1))
+                {
+                    var v = DummyLookupTable.Lookup(dummy);
+                    source.Next = v;
+                    source = v;
+                }
             }
+
+            VertexSuccestors succ = new VertexSuccestors(DummyLookupTable);
+            succ.BuildSuccestors(model);
+
 
 
             return Transfrom(model.Vertices, model.Vertices.Where(v => v.Outputs.Count == 0));
@@ -66,23 +92,71 @@ namespace BoBox.Visitors
 
         public VertexControl Visit(Box visited)
         {
-            var box = new BoxControl(visited);
-            foreach (var item in visited.Inputs)
+            var box = new BoxControl() { Label = visited.Label };
+                       
+            foreach (var item in visited.InputDummies)
             {
-                box.Input.Add(new DummyControl());
+                var d = GetDummyControl(item);                
+                box.Input.Add(d);                 
+                
             }
+
+            foreach (var item in visited.OutputDummies)
+            {                                
+                var v = GetDummyControl(item);
+                v.Next = GetDummyControl(item.Next);
+                box.Output.Add(v);                                
+            }
+
+
+
+            
             return box;
+        }        
+
+        private DummyControl GetDummyControl(DummyVertex dummy)
+        {
+            DummyControl ret;
+            if (!CreatedControls.TryGetValue(dummy, out ret))
+            {
+                ret = new DummyControl() { Id = dummy.Parent.Label };
+                CreatedControls.Add(dummy, ret);
+            }
+
+            return ret;
+
+
         }
 
         public VertexControl Visit(Subgraph visited)
         {
-            var c = new SubgraphControl(visited);
+            var box = new SubgraphControl() { Label = visited.Label };
+
             //var a = new ModelToControl();
             var sinks = visited.GetSinks();
-            c.GraphLayers = Transfrom(visited.Vertices, sinks);
+            box.GraphLayers = Transfrom(visited.Vertices, sinks);
+
+            foreach (var item in visited.InputDummies)
+            {
+                var v = GetDummyControl(item);
+                v.Next = GetDummyControl(item.Next);
+
+                box.Input.Add(v);
+
+
+            }
+
+            foreach (var item in visited.OutputDummies)
+            {
+                var v = GetDummyControl(item);
+                v.Next = GetDummyControl(item.Next);
+                box.Output.Add(v);
+            }
             //c.OnFirstExpand = v => ;
             //visited.Vertices = 
-            return c;
+            return box;
         }
+
+        public VertexToDummyCreateAndLookupTable DummyLookupTable { get; set; }
     }
 }

@@ -11,5 +11,7 @@ namespace BoBox.Entities
     {
         public string Id { get; set; }
         public List<string> Path { get; set; }
+        public DummyVertex SourceDummy { get; set; }
+        public DummyVertex TargetDummy { get; set; }
     }
 }

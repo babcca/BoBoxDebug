@@ -22,8 +22,7 @@ namespace BoBox.Deserializer
         }
 
         public IVertex DeserializeVertex(string json)
-        {
-            // [TODO] Input/output nejsou objekty ale id
+        {            
             IType type = JsonSerializer.DeserializeFromString<VertexType>(json);
             IVertex vertex =  VertexFactory[type.Type.ToLower()](json);            
 
@@ -36,22 +35,22 @@ namespace BoBox.Deserializer
 
             var model = JsonSerializer.DeserializeFromString<Graph>(file);
 
-            // Add edges
-            var dummyLookupTable = new VertexToDummyLookupTable(model);
-            foreach (var edge in model.Edges)
-            {
-                var source = dummyLookupTable.Lookup(edge.Path.First());                
+            //// Add edges
+            //var dummyLookupTable = new VertexToDummyLookupTable(model);
+            //foreach (var edge in model.Edges)
+            //{
+            //    var source = dummyLookupTable.Lookup(edge.Path.First());                
 
-                foreach (var dummy in edge.Path.Skip(1))
-               {
-                    var v = dummyLookupTable.Lookup(dummy);
-                    source.Next = v;
-                    source = v;
-                }
-            }
+            //    foreach (var dummy in edge.Path.Skip(1))
+            //   {
+            //        var v = dummyLookupTable.Lookup(dummy);
+            //        source.Next = v;
+            //        source = v;
+            //    }
+            //}
 
-            VertexSuccestors succ = new VertexSuccestors(dummyLookupTable);
-            succ.BuildSuccestors(model);
+            //VertexSuccestors succ = new VertexSuccestors(dummyLookupTable);
+            //succ.BuildSuccestors(model);
 
             return model;
         }

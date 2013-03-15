@@ -13,29 +13,90 @@ namespace BoBox.Controls.Vertices
     {
         static DummyControl()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(DummyControl), new FrameworkPropertyMetadata(typeof(DummyControl)));                       
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DummyControl), new FrameworkPropertyMetadata(typeof(DummyControl)));                                   
         }
 
         public DummyControl()
         {            
         }
 
-        public Panel Parent { get; set; }
+        public DummyControl(string id, string pathId)
+            :this()
+        {
+            Id = id;
+            PathId = pathId;            
+        }
+
+        public string Id { get;  set; }
+        public string PathId { get; set; }
 
         protected override void OnRender(System.Windows.Media.DrawingContext drawingContext)
         {
-            base.OnRender(drawingContext);
-            
-        }
+            base.OnRender(drawingContext);                        
+        }       
 
         protected override void ParentLayoutInvalidated(UIElement child)
         {
             base.ParentLayoutInvalidated(child);
             //var p = GetParentPanel(this);
             //GeneralTransform targetTransform = this.TransformToVisual(p);
-            //Point targetCoords = targetTransform.Transform(new Point(0, 0));
-
+            //Point targetCoords = targetTransform.Transform(new Point(0, 0));            
         }
+
+
+
+
+
+
+        public double BoxWidth
+        {
+            get { return ActualWidth; }
+            set { SetValue(WidthProperty, value); }
+        }
+
+        
+
+        public double BoxHeight
+        {
+            get { return ActualHeight; }
+            set { SetValue(HeightProperty, value); }
+        }
+
+        
+        
+
+        
+        
+
+        
+
+
+        public Point SourcePoint
+        {
+            get { return (Point)GetValue(SourcePointProperty); }
+            set { SetValue(SourcePointProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SourcePoint.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SourcePointProperty =
+            DependencyProperty.Register("SourcePoint", typeof(Point), typeof(DummyControl));
+
+
+
+        public Point TargetPoint
+        {
+            get { return (Point)GetValue(TargetPointProperty); }
+            set { SetValue(TargetPointProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for TargetPoint.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TargetPointProperty =
+            DependencyProperty.Register("TargetPoint", typeof(Point), typeof(DummyControl));
+
+        
+
+
+
 
         public double X
         {
@@ -90,7 +151,21 @@ namespace BoBox.Controls.Vertices
         // Using a DependencyProperty as the backing store for test.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty testProperty =
             DependencyProperty.Register("test", typeof(string), typeof(DummyControl), new FrameworkPropertyMetadata("aaaa"));
-                
+
+
+
+
+        public DummyControl Next
+        {
+            get { return (DummyControl)GetValue(NextProperty); }
+            set { SetValue(NextProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Next.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty NextProperty =
+            DependencyProperty.Register("Next", typeof(DummyControl), typeof(DummyControl));
+
+        
         
     }
 }

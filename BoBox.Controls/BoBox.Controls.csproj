@@ -86,10 +86,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BoBox.Entities\BoBox.Entities.csproj">
-      <Project>{ee0ef266-2015-4682-acd5-c5711131e11e}</Project>
-      <Name>BoBox.Entities</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BoBox.Utils\BoBox.Utils.csproj">
       <Project>{2202e1d6-1aae-4aa8-9a83-8f2bd2f7cf5c}</Project>
       <Name>BoBox.Utils</Name>

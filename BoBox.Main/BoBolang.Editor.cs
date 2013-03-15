@@ -74,14 +74,19 @@ namespace BoBox.Main.Editor
         public BoBox.Utils.IConsole Console { get; set; }
 
         public BoBographTab(string sourceFile)
-        {            
+        {
+            var s = System.Diagnostics.Stopwatch.StartNew();
             var l = new ModelLoader();
             var m = l.LoadFromFile(sourceFile);
             var c = new ModelToControl();
             var p = c.Transfrom(m);
+            s.Stop();
+            var e = s.ElapsedTicks;
+            var ms = s.ElapsedMilliseconds;
+            System.Diagnostics.Debug.WriteLine("{0} {1}", e, ms);
             
             var model = new BoBox.Controls.GraphCanvasControl();
-            model.GraphLayers = p;
+            model.GraphLayers = p;            
 
             var scroll = new ScrollViewer() { HorizontalScrollBarVisibility = ScrollBarVisibility.Visible };
             scroll.Content = model;

@@ -1,5 +1,4 @@
-﻿using BoBox.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,24 +9,18 @@ using System.Windows;
 namespace BoBox.Controls.Vertices
 {
     public class BoxControl : VertexControl
-    {        
+    {
         static BoxControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(BoxControl), new FrameworkPropertyMetadata(typeof(BoxControl)));
             LabelProperty.AddOwner(typeof(BoxControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits));
 
-            
+
         }
 
         public BoxControl()
             : base()
         {
         }
-
-        public BoxControl(Box vertex)
-            : base(vertex)
-        {            
-        
-        }        
     }
 }

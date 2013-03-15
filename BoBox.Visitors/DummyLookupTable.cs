@@ -9,11 +9,14 @@ using System.Threading.Tasks;
 
 namespace BoBox.Visitors
 {
-    public class VertexToDummyLookupTable : IVertexVisitor
+    /// <summary>
+    /// Muze byt pouzita pouze jednou
+    /// </summary>
+    public class VertexToDummyCreateAndLookupTable : IVertexVisitor
     {
         public Dictionary<string, DummyVertex> DummyVertices { get; private set; }
 
-        public VertexToDummyLookupTable(Graph graph)
+        public VertexToDummyCreateAndLookupTable(Graph graph)
         {
             DummyVertices = new Dictionary<string, DummyVertex>();
             SetVertices(graph.Vertices);
@@ -48,12 +51,14 @@ namespace BoBox.Visitors
             {
                 try
                 {
-                    DummyVertices.Add(item, new DummyVertex() { Id = item, Parent = visited });
+                    var input = new DummyVertex() { Id = item, Parent = visited };
+                    visited.InputDummies.Add(input);
+                    DummyVertices.Add(item, input);
 
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw new Exception(string.Format("Dummy id isn't unique {0}", item));
+                    throw new Exception(string.Format("Input dummy id isn't unique {0}", item), ex);
                 }
             }
 
@@ -61,12 +66,14 @@ namespace BoBox.Visitors
             {
                 try
                 {
-                    DummyVertices.Add(item, new DummyVertex() { Id = item, Parent = visited });
+                    var dummy = new DummyVertex() { Id = item, Parent = visited };
+                    visited.OutputDummies.Add(dummy);
+                    DummyVertices.Add(item, dummy);
 
                 }
-                catch
+                catch(Exception ex)
                 {
-                    throw new Exception(string.Format("Dummy id isn't unique {0}", item));
+                    throw new Exception(string.Format("Output dummy id isn't unique {0}", item), ex);
                 }
             }
 
@@ -76,12 +83,16 @@ namespace BoBox.Visitors
         {
             foreach (var item in visited.Inputs)
             {
-                DummyVertices.Add(item, new DummyVertex() { Id = item, Parent = visited });
+                var input = new DummyVertex() { Id = item, Parent = visited };
+                visited.InputDummies.Add(input);
+                DummyVertices.Add(item, input);                
             }
 
             foreach (var item in visited.Outputs)
             {
-                DummyVertices.Add(item, new DummyVertex() { Id = item, Parent = visited });
+                var dummy = new DummyVertex() { Id = item, Parent = visited };
+                visited.OutputDummies.Add(dummy);
+                DummyVertices.Add(item, dummy);                
             }
 
             foreach (var vertex in visited.Vertices)
