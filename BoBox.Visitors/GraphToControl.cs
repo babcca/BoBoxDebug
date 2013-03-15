@@ -7,7 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 
 
@@ -19,19 +21,23 @@ namespace BoBox.Visitors
     public class ModelToControl : IVertexVisitor<VertexControl>
     {
         public static Dictionary<DummyVertex, DummyControl> CreatedControls = new Dictionary<DummyVertex, DummyControl>();
-        
+        public bool Debug { get; set; }
         protected StackPanel Transfrom(List<IVertex> vertices, IEnumerable<IVertex> sinks)
         {
             
             VerticesLayering LayeringProcessor = new VerticesLayering();
             var la = LayeringProcessor.ComputeLayers(vertices, sinks);
-            
-            StackPanel msp = new StackPanel();
+
+            StackPanel msp = new StackPanel();            
             for (int i = la.Count - 1; i >= 0; --i)
             {
                 System.Diagnostics.Debug.WriteLine(i);
                 msp.Children.Add(ProcesVertices(la[i]));
                 
+            }
+            if (Debug)
+            {
+                msp.Background = Brushes.Red;
             }
             //foreach (var layer in la)
             //{
@@ -55,6 +61,7 @@ namespace BoBox.Visitors
         }
         public StackPanel Transfrom(Graph model)
         {
+            Debug = false;
             DummyLookupTable = new VertexToDummyCreateAndLookupTable(model);
             // Add edges            
             foreach (var edge in model.Edges)
@@ -80,13 +87,19 @@ namespace BoBox.Visitors
         public Panel ProcesVertices(IList<IVertex> vertices)
         {
             //List<VertexControl> controls = new List<VertexControl>();
-            StackPanel controls = new StackPanel() { Orientation = System.Windows.Controls.Orientation.Horizontal };
+            StackPanel controls = new StackPanel() { Orientation = System.Windows.Controls.Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 20, 0, 20) };
 
+            byte c = 0;
             foreach (var vertex in vertices)
             {
                 controls.Children.Add(vertex.Accept<VertexControl>(this));
+                ++c;
             }
-
+            
+            if (Debug)
+            {
+                controls.Background = new SolidColorBrush(Color.FromRgb((byte)(10 * c), (byte)(10 * c), (byte)( 10 * c)));
+            }
             return controls;
         }
 

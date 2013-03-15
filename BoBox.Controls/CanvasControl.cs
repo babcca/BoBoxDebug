@@ -74,17 +74,39 @@ namespace BoBox.Controls
 
         public GraphCanvasControl()
         {
-              //this.LayoutUpdated += GraphCanvasControl_LayoutUpdated;
-              //this.ManipulationCompleted += GraphCanvasControl_ManipulationCompleted;
-              this.SizeChanged += GraphCanvasControl_SizeChanged;              
+            //this.LayoutUpdated += GraphCanvasControl_LayoutUpdated;
+            //this.ManipulationCompleted += GraphCanvasControl_ManipulationCompleted;
+            this.SizeChanged += GraphCanvasControl_SizeChanged;
 
             //this.RequestBringIntoView += GraphCanvasControl_RequestBringIntoView;                        
-        }         
+        }
 
         void GraphCanvasControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             foreach (var v in GraphVertex)
             {
+
+                if (v is SubgraphControl)
+                {
+                    var s = v as SubgraphControl;
+                    foreach (var item in s.Input)
+                    {
+                        GeneralTransform targetTransform = item.TransformToVisual(this);
+                        Point source = targetTransform.Transform(new Point(0, 0));
+
+                        source.X += item.BoxWidth / 2;
+                        source.Y += item.BoxHeight;
+
+                        item.SourcePoint = source;
+
+                        //var t = item.Next.TransformToVisual(this);
+                        //var k = t.Transform(new Point(0, 0));
+                        //k.X += item.Next.BoxWidth / 2;
+
+                        //item.TargetPoint = k;
+                    }
+                }
+
                 foreach (var item in v.Output)
                 {
                     GeneralTransform targetTransform = item.TransformToVisual(this);
@@ -93,12 +115,12 @@ namespace BoBox.Controls
                     source.X += item.BoxWidth / 2;
                     source.Y += item.BoxHeight;
 
-                    item.SourcePoint = source;                    
+                    item.SourcePoint = source;
 
                     var t = item.Next.TransformToVisual(this);
                     var k = t.Transform(new Point(0, 0));
                     k.X += item.Next.BoxWidth / 2;
-                    
+
                     item.TargetPoint = k;
 
                     //targetCoords.Offset(item.Next.BoxWidth / 2, 0);
@@ -110,13 +132,21 @@ namespace BoBox.Controls
             this.InvalidateVisual();
             //(sender as Control).InvalidateVisual();
         }
-        
+
         protected override void OnRender(DrawingContext drawingContext)
         {
             base.OnRender(drawingContext);
 
             foreach (var v in GraphVertex)
             {
+                //if (v is SubgraphControl)
+                //{
+                //    var s = v as SubgraphControl;
+                //    foreach (var item in s.Input)
+                //    {
+                //        drawingContext.DrawLine(new Pen(Brushes.Blue, 1), item.SourcePoint, item.TargetPoint);
+                //    }
+                //}
                 foreach (var item in v.Output)
                 {
                     drawingContext.DrawLine(new Pen(Brushes.Blue, 1), item.SourcePoint, item.TargetPoint);
@@ -172,7 +202,7 @@ namespace BoBox.Controls
 
         protected static void Vertex_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-        }        
+        }
     }
 
 

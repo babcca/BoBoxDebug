@@ -17,7 +17,43 @@ namespace BoBox.Controls.Vertices
         }
 
         public DummyControl()
+        {
+            MouseEnter += DummyControl_MouseEnter;
+            MouseLeave += DummyControl_MouseLeave;
+        }
+
+        void DummyControl_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            var originalColor = Brushes.White;
+            
+            var next = Next;
+
+            if (next != null)
+            {
+                Background = originalColor;
+            }
+
+            while (next != null)
+            {
+                next.Background = originalColor;
+                next = next.Next;
+            }
+        }
+
+        void DummyControl_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {            
+            var activeColor = Brushes.Green;
+            
+            var next = Next;
+            if (next != null)
+            {
+                Background = activeColor;
+            }
+            while (next != null)
+            {
+                next.Background = activeColor;
+                next = next.Next;
+            }
         }
 
         public DummyControl(string id, string pathId)
@@ -163,9 +199,6 @@ namespace BoBox.Controls.Vertices
 
         // Using a DependencyProperty as the backing store for Next.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty NextProperty =
-            DependencyProperty.Register("Next", typeof(DummyControl), typeof(DummyControl));
-
-        
-        
+            DependencyProperty.Register("Next", typeof(DummyControl), typeof(DummyControl));                
     }
 }
