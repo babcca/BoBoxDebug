@@ -20,6 +20,7 @@ namespace BoBox.Controls.Vertices
         {
             MouseEnter += DummyControl_MouseEnter;
             MouseLeave += DummyControl_MouseLeave;
+            
         }
 
         void DummyControl_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
@@ -78,12 +79,7 @@ namespace BoBox.Controls.Vertices
             //GeneralTransform targetTransform = this.TransformToVisual(p);
             //Point targetCoords = targetTransform.Transform(new Point(0, 0));            
         }
-
-
-
-
-
-
+        
         public double BoxWidth
         {
             get { return ActualWidth; }

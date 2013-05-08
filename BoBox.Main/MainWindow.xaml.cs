@@ -39,27 +39,32 @@ namespace BoBox.Main
         {
             InitializeComponent();
             LoadAllNeccessaryThings();
-            
+
             con.Register<BoBox.Utils.IConsole>((cc) => model.Console);
+
             con.Register<EdgeControl>((cc) => new EdgeControl() { Console = cc.Resolve<BoBox.Utils.IConsole>() });
             con.Register<Editor.BoBographTab, string>((cc, fileName) => new Editor.BoBographTab(fileName) { Console = cc.Resolve<BoBox.Utils.IConsole>() });
             //var e = con.Resolve<EdgeControl>();
-            //var l = new ModelLoader();
-            //var m = l.LoadFromFile("Data/q7.sparql.json");
-            new Editor.BoBographTab("Data/q3c.sparql.json").AtacheToPane(MainDocumentsPane);                
+            var l = new ModelLoader();
+            var m = l.LoadFromFile("Data/q7.sparql.json");
+            new Editor.BoBographTab("Data/q3c.sparql.json").AtacheToPane(MainDocumentsPane);
 
             //var c = new ModelToControl();
             //var p = c.Transfrom(m);
 
             //GraphCanvas.GraphLayers = p;
-
-            DataContext = model;            
+            //BoBox.Editor.TabsManager man = new BoBox.Editor.TabsManager() { Console = model.Console };            
+            //Man.Add(new AvalonDock.Layout.LayoutAnchorable() { Title = "AAAA" });
+            //Man.Add(new AvalonDock.Layout.LayoutDocument() { Title = "aaa" });
+            //Man.Add(new AvalonDock.Layout.LayoutDocument() { Title = "bbb" });
+            //Man.Add(new AvalonDock.Layout.LayoutDocument() { Title = "ccc" });
+            DataContext = model;
         }
 
         private void MenuItem_BoBox_Open(object sender, RoutedEventArgs e)
         {
             OpenFileDialog browser = new OpenFileDialog();
-            browser.ValidateNames = true;            
+            browser.ValidateNames = true;
             browser.Filter = "BoBolang source | *.bobolang;*.txt";
             //browser.FilterIndex = 1;
             bool? result = browser.ShowDialog();
@@ -73,21 +78,21 @@ namespace BoBox.Main
         }
 
         private void MenuItem_BoBox_New(object sender, RoutedEventArgs e)
-        {            
+        {
             SaveFileDialog browser = new SaveFileDialog();
             browser.Filter = "BoBolang source | *.bobolang";
-            browser.AddExtension = true;                        
+            browser.AddExtension = true;
             browser.OverwritePrompt = true;
             browser.ValidateNames = true;
-            
+
             bool? result = browser.ShowDialog();
 
             if (result.HasValue && result.Value)
             {
                 var editor = new Editor.BoBolangEditor(browser.FileName);
                 editor.AtacheToPane(MainDocumentsPane);
-            }            
-            
+            }
+
         }
 
         private void LoadAllNeccessaryThings()
@@ -98,7 +103,7 @@ namespace BoBox.Main
             {
                 string name = System.IO.Path.GetFileNameWithoutExtension(syntaxFile);
                 string extension = string.Format(".{0}", name.ToLower());
-                
+
                 HighlightingManager.Instance.RegisterHighlighting(name, new string[] { extension }, () => LoadHighlighting(syntaxFile));
             }
         }
@@ -117,9 +122,21 @@ namespace BoBox.Main
 
         private void Build_Click(object sender, RoutedEventArgs e)
         {
-            FileExecution fe = new FileExecution();
-            fe.Console = model.Console;
-            fe.Run("ls.exe");
+            var compiler = BoBox.Deserializer.Config.Instance.BobolangCompiler;
+            var args = BoBox.Deserializer.Config.Instance.BobolangCommand;
+
+            if (!string.IsNullOrWhiteSpace(compiler))
+            {
+                FileExecution fe = new FileExecution() { Console = model.Console };                
+                var filename = MainDocumentsPane.Children.First(c => c.IsActive).ToolTip.ToString();
+                var cmd = string.Format(args, filename);
+                fe.Run(compiler, cmd);
+            }
+            else
+            {
+                model.Console.Error("BoBolang compiler not set");
+            }
+
         }
 
         private void MenuItem_Graph_Open(object sender, RoutedEventArgs e)
@@ -132,11 +149,46 @@ namespace BoBox.Main
 
             if (result.HasValue && result.Value)
             {
-                var graph = new Editor.BoBographTab(browser.FileName);                
-                graph.AtacheToPane(MainDocumentsPane);                
+                var graph = new Editor.BoBographTab(browser.FileName);
+                graph.AtacheToPane(MainDocumentsPane);
             }
+        }
 
-            
-        }        
+        private void MenuItem_Tools_Options(object sender, RoutedEventArgs e)
+        {
+            var c = BoBox.Deserializer.Config.Instance;
+            SettingsWindow w = new SettingsWindow() { SelectedObject = c };
+            var a = w.ShowDialog();
+            c.Save();
+        }
+
+        private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var tab = MainDocumentsPane.GetActiveTab();
+            if (tab is Editor.BoBolangEditor)
+            {
+                e.CanExecute = true;
+                e.Handled = true;
+            }
+            else
+            {
+                e.CanExecute = false;
+                e.Handled = true;
+            }
+        }
+
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var tab = MainDocumentsPane.GetActiveTab();
+            if (tab is Editor.BoBolangEditor)
+            {
+                ((Editor.BoBolangEditor)tab).Save();
+            }
+        }
+
+        private void dockingManager_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

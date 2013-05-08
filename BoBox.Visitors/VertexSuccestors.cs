@@ -26,24 +26,19 @@ namespace BoBox.Visitors
         public void Visit(Entities.Box visited)
         {
             // [TODO] snad zachovava poradi
-            visited.Successtors = visited.Outputs.Select(i =>
-                {
-                    var ancestor = DummyTable_.Lookup(i);
-                    var successtor = ancestor.Next.Parent;
-                    //ancestor.Next
-                    //visited.
+            visited.Successors = visited.Outputs.Select(i => DummyTable_.Lookup(i).Next.Parent);
+            visited.SuccesstorDumimes = visited.Outputs.Select(i => DummyTable_.Lookup(i).Next);
 
-                    return successtor;
-                }
-            );
-            visited.SuccesstorDumimes = visited.Outputs.Select(i => DummyTable_.Lookup(i).Next);            
+            visited.Ancestors = visited.Inputs.Select(i => DummyTable_.Lookup(i).Prev.Parent);
         }
 
         public void Visit(Entities.Subgraph visited)
         {
-            visited.Successtors = visited.Outputs.Select(i => DummyTable_.Lookup(i).Next.Parent);
+            visited.Successors = visited.Outputs.Select(i => DummyTable_.Lookup(i).Next.Parent);
             visited.SuccesstorDumimes = visited.Outputs.Select(i => DummyTable_.Lookup(i).Next);
+            visited.Ancestors = visited.Inputs.Select(i => DummyTable_.Lookup(i).Prev.Parent);
 
+            
             foreach (var item in visited.Vertices)
             {
                 item.Accept(this);

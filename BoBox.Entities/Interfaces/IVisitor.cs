@@ -9,7 +9,7 @@ namespace BoBox.Entities.Interfaces
     public interface IVertexVisitor<TReturn>
     {
         TReturn Visit(Box visited);
-        TReturn Visit(Subgraph visited);
+        TReturn Visit(Subgraph visited);        
     }
 
     public interface IVertexVisitor

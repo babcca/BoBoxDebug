@@ -3,12 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
         xmlns:BoBox="clr-namespace:BoBox.Controls;assembly=BoBox.Controls"
         xmlns:BoBoxControls="clr-namespace:BoBox.Controls.Vertices;assembly=BoBox.Controls"
-        xmlns:Local="clr-namespace:BoBox.Main.Editor"
+        xmlns:Local="clr-namespace:BoBox.Main.Editor"        
         xmlns:AvalonDock="http://avalondock.codeplex.com"
         xmlns:AvalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        xmlns:Manager="clr-namespace:BoBox.Editor"
+        xmlns:a="clr-namespace:BoBox.LayoutControl;assembly=BoBox.LayoutControl"
         Title="MainWindow" Height="350" Width="525">
-    
+    <Window.CommandBindings>
+        <CommandBinding Command="Save" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed" />
+    </Window.CommandBindings>
     <Grid>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -16,15 +21,16 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Menu>
-            <MenuItem Header="_FILE">                
+            <MenuItem Header="_FILE">
                 <MenuItem Header="_New">
                     <MenuItem Header="New BoBox source" Click="MenuItem_BoBox_New"/>
                 </MenuItem>
-                
-                <MenuItem Header="_Open">                    
+
+                <MenuItem Header="_Open">
                     <MenuItem Header="Open BoBox source" Click="MenuItem_BoBox_Open"/>
                     <MenuItem Header="Open model graph" Click="MenuItem_Graph_Open"/>
-                </MenuItem>                
+                </MenuItem>
+                <MenuItem Header="_Save" Command="Save" />
                 <Separator/>
                 <MenuItem Header="_Exit" InputGestureText="Alt + F4" />
             </MenuItem>
@@ -34,51 +40,78 @@
                     <MenuItem x:Name="Menu_Toolbar_BoBolang" Header="BoBolang"  IsCheckable="True"  />
                 </MenuItem>
             </MenuItem>
-            
+
             <MenuItem Header="_TOOLS">
-                <MenuItem Header="Options" />                
+                <MenuItem Header="Options" Click="MenuItem_Tools_Options"  />
             </MenuItem>
-        </Menu>   
+        </Menu>
         <ToolBarTray Grid.Row="1">
             <ToolBar Visibility="Collapsed">
                 <Button Content="Generuj graf" />
                 <Button Content="Generuj graf" />
                 <Button Content="Generuj graf" />
             </ToolBar>
-            
-            
+
+
             <ToolBar>
-                <Button Content="Build" Click="Build_Click" />
+                <Button Content="Build" Click="Build_Click"  />
                 <Button Content="Generuj graf 2" />
                 <Button Content="Generuj graf 2" />
             </ToolBar>
         </ToolBarTray>
-        
-        <AvalonDock:DockingManager x:Name="dockManager" Grid.Row="2" >
+
+        <!--<a:UserControl1 Grid.Row="2" x:Name="Man">
+        </a:UserControl1>-->
+
+        <!--<AvalonDock:DockingManager x:Name="dockingManager" Grid.Row="2" Loaded="dockingManager_Loaded">
             <AvalonDock:LayoutRoot>
                 <AvalonDock:LayoutPanel>                    
-                                        
-
-                    <Local:TabManager x:Name="MainDocumentsPane">                        
-                    </Local:TabManager>
+                        <AvalonDock:LayoutDocumentPane>
+                            <AvalonDock:LayoutAnchorable Title="aaaa">
+                            </AvalonDock:LayoutAnchorable>
+                            <AvalonDock:LayoutDocument >                                    
+                            </AvalonDock:LayoutDocument>
+                            <AvalonDock:LayoutDocument >
+                            </AvalonDock:LayoutDocument>
+                            <AvalonDock:LayoutDocument >
+                            </AvalonDock:LayoutDocument>
+                            <AvalonDock:LayoutDocument >
+                            </AvalonDock:LayoutDocument>
+                        </AvalonDock:LayoutDocumentPane>
                     
                     <AvalonDock:LayoutAnchorablePane  DockMinWidth="200">
-                        <AvalonDock:LayoutAnchorable CanClose="False" CanAutoHide="True" Title="Events" />
                         <AvalonDock:LayoutAnchorable CanClose="False" CanAutoHide="True" Title="Properties" />
+                    </AvalonDock:LayoutAnchorablePane>
+                </AvalonDock:LayoutPanel>
+            </AvalonDock:LayoutRoot>
+            
+
+        </AvalonDock:DockingManager> -->
+        <AvalonDock:DockingManager x:Name="dockManager" Grid.Row="2" >
+            <AvalonDock:LayoutRoot>
+                <AvalonDock:LayoutPanel>
+                    <Local:TabManager x:Name="MainDocumentsPane">
+                    </Local:TabManager>
+
+                    <AvalonDock:LayoutAnchorablePane  DockMinWidth="200">
+                        <AvalonDock:LayoutAnchorable CanClose="False" CanAutoHide="True" Title="Properties">
+
+                        </AvalonDock:LayoutAnchorable>
+                        <AvalonDock:LayoutAnchorable CanClose="False" CanAutoHide="True" Title="Events" />
                         <AvalonDock:LayoutAnchorable>
                             <TextBox AcceptsReturn="True" x:Name="MainConsole" Text="{Binding Console.Logs}"/>
                         </AvalonDock:LayoutAnchorable>
                     </AvalonDock:LayoutAnchorablePane>
                 </AvalonDock:LayoutPanel>
             </AvalonDock:LayoutRoot>
-                            
-        </AvalonDock:DockingManager>        
 
-        <StatusBar Grid.Row="3">            
+        </AvalonDock:DockingManager>
+
+        <StatusBar Grid.Row="3">
             <StatusBarItem Content="status bar"/>
             <StatusBarItem>
                 <ProgressBar IsIndeterminate="True" Value="50" />
-            </StatusBarItem>            
+            </StatusBarItem>
         </StatusBar>
     </Grid>
 </Window>

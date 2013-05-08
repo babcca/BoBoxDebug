@@ -16,7 +16,11 @@
 		<Keywords fontWeight="bold" fontStyle="italic" foreground="Red">
 			<Word>-></Word>
 		</Keywords>
-
+    
+    <Keywords fontStyle="italic" foreground="Green">
+      <Word>typename</Word>
+    </Keywords>
+    
     <Keywords fontStyle="italic">
       <Word>main</Word>
     </Keywords>

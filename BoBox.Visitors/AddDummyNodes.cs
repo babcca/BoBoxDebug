@@ -18,7 +18,7 @@ namespace BoBox.Visitors
 
             foreach (var u in sources)
             {
-                foreach (var v in u.Successtors)
+                foreach (var v in u.Successors)
                 {
                     if (VertexSpan(u, v) > 1)
                     {

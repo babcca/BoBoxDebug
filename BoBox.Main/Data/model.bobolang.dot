@@ -1,0 +1,39 @@
+digraph G {
+	"1" [ shape=box, label="init_box:1" ];
+	subgraph "clustermain:2" { label="main:2";
+		"14" [ shape=box, label="_rr_dispatch:14" ];
+		"5" [ shape=box, label="stateless[0/4]:5" ];
+		"6" [ shape=box, label="stateless[1/4]:6" ];
+		"7" [ shape=box, label="stateless[2/4]:7" ];
+		"8" [ shape=box, label="stateless[3/4]:8" ];
+		"15" [ shape=box, label="_rr_aggregate:15" ];
+		"9" [ shape=box, label="stateful:9" ];
+		"16" [ shape=box, label="_broadcast:16" ];
+		"10" [ shape=box, label="parallel[0/4]:10" ];
+		"11" [ shape=box, label="parallel[1/4]:11" ];
+		"12" [ shape=box, label="parallel[2/4]:12" ];
+		"13" [ shape=box, label="parallel[3/4]:13" ];
+		"17" [ shape=box, label="_rr_aggregate:17" ];
+	}
+	"18" [ shape=box, label="term_box:18" ];
+"1" -> "14" [label=""];
+"14" -> "5" [label=""];
+"14" -> "6" [label=""];
+"14" -> "7" [label=""];
+"14" -> "8" [label=""];
+"5" -> "15" [label=""];
+"6" -> "15" [label=""];
+"7" -> "15" [label=""];
+"8" -> "15" [label=""];
+"15" -> "9" [label=""];
+"9" -> "16" [label=""];
+"16" -> "10" [label=""];
+"16" -> "11" [label=""];
+"16" -> "12" [label=""];
+"16" -> "13" [label=""];
+"10" -> "17" [label=""];
+"11" -> "17" [label=""];
+"12" -> "17" [label=""];
+"13" -> "17" [label=""];
+"17" -> "18" [label=""];
+}

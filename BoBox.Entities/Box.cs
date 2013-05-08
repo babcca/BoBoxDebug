@@ -51,7 +51,7 @@ namespace BoBox.Entities
 
         public IEnumerable<IVertex> GetSinks()
         {
-            return this.Vertices.Where(v => v.Successtors.Contains(this));
+            return this.Vertices.Where(v => v.Successors.Contains(this));
         }
     }
 
@@ -66,8 +66,13 @@ namespace BoBox.Entities
         
         /// <summary>
         /// Nasledujici Dummy vrchol
-        /// </summary>
+        /// </summary>        
         public DummyVertex Next { get; set; }
+
+        /// <summary>
+        /// Predchozi dummy vrchol
+        /// </summary>
+        public DummyVertex Prev { get; set; }
 
         /// <summary>
         /// WPF Control objektu ktery se vykresluje

@@ -68,6 +68,12 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="WindowsBase" />
+    <Reference Include="Xceed.Wpf.DataGrid">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.1.9.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.1.9.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -75,6 +81,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="FileExecution.cs" />
+    <Compile Include="SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\TabsViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -90,6 +99,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -152,6 +165,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BoBox.Console\BoBox.Console.csproj">
+      <Project>{a46ccb57-0a9f-4923-aee8-1db5b847802a}</Project>
+      <Name>BoBox.Console</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BoBox.Controls\BoBox.Controls.csproj">
       <Project>{a44fd76b-af37-42c4-839b-6217c843fcc4}</Project>
       <Name>BoBox.Controls</Name>
@@ -160,9 +177,17 @@
       <Project>{50ffd9e5-b567-4d2e-a8e2-0d3d7bb6208f}</Project>
       <Name>BoBox.Deserializer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BoBox.Editor\BoBox.Editor.csproj">
+      <Project>{cdddaa3a-e69b-4658-8bbf-4347989f7c53}</Project>
+      <Name>BoBox.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BoBox.Entities\BoBox.Entities.csproj">
       <Project>{ee0ef266-2015-4682-acd5-c5711131e11e}</Project>
       <Name>BoBox.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BoBox.LayoutControl\BoBox.LayoutControl.csproj">
+      <Project>{55a2376c-0931-4619-8cb9-7354e11326b4}</Project>
+      <Name>BoBox.LayoutControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\BoBox.Utils\BoBox.Utils.csproj">
       <Project>{2202e1d6-1aae-4aa8-9a83-8f2bd2f7cf5c}</Project>

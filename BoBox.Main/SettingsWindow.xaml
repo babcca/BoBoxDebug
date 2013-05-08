@@ -1,0 +1,9 @@
+﻿<Window x:Class="BoBox.Main.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xceed="clr-namespace:Xceed.Wpf.Toolkit.PropertyGrid;assembly=Xceed.Wpf.Toolkit"
+        Title="SettingsWindow" Height="300" Width="300">
+    <Grid>
+        <xceed:PropertyGrid Name="grid"></xceed:PropertyGrid>
+    </Grid>
+</Window>

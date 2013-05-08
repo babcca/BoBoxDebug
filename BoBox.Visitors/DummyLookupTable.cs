@@ -69,8 +69,8 @@ namespace BoBox.Visitors
                     var dummy = new DummyVertex() { Id = item, Parent = visited };
                     visited.OutputDummies.Add(dummy);
                     DummyVertices.Add(item, dummy);
-
                 }
+
                 catch(Exception ex)
                 {
                     throw new Exception(string.Format("Output dummy id isn't unique {0}", item), ex);

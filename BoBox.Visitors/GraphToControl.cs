@@ -22,14 +22,20 @@ namespace BoBox.Visitors
     {
         public static Dictionary<DummyVertex, DummyControl> CreatedControls = new Dictionary<DummyVertex, DummyControl>();
         public bool Debug { get; set; }
+
+        public ModelToControl()
+        {
+            Debug = false;
+        }
         protected StackPanel Transfrom(List<IVertex> vertices, IEnumerable<IVertex> sinks)
         {
             
-            VerticesLayering LayeringProcessor = new VerticesLayering();
+            //LongestPathLayering LayeringProcessor = new LongestPathLayering();
+            LongestPathLayeringUpDown LayeringProcessor = new LongestPathLayeringUpDown();
             var la = LayeringProcessor.ComputeLayers(vertices, sinks);
 
             StackPanel msp = new StackPanel();            
-            for (int i = la.Count - 1; i >= 0; --i)
+            for (int i = 0; i < la.Count; ++i)
             {
                 System.Diagnostics.Debug.WriteLine(i);
                 msp.Children.Add(ProcesVertices(la[i]));
@@ -61,7 +67,7 @@ namespace BoBox.Visitors
         }
         public StackPanel Transfrom(Graph model)
         {
-            Debug = false;
+            
             DummyLookupTable = new VertexToDummyCreateAndLookupTable(model);
             // Add edges            
             foreach (var edge in model.Edges)
@@ -72,6 +78,7 @@ namespace BoBox.Visitors
                 {
                     var v = DummyLookupTable.Lookup(dummy);
                     source.Next = v;
+                    v.Prev = source;
                     source = v;
                 }
             }
@@ -80,8 +87,10 @@ namespace BoBox.Visitors
             succ.BuildSuccestors(model);
 
 
+            var sinks = model.Vertices.Where(v => v.Outputs.Count == 0);
+            var sources = model.Vertices.Where(v => v.Inputs.Count == 0);
 
-            return Transfrom(model.Vertices, model.Vertices.Where(v => v.Outputs.Count == 0));
+            return Transfrom(model.Vertices, sources);
         }
 
         public Panel ProcesVertices(IList<IVertex> vertices)
@@ -105,7 +114,7 @@ namespace BoBox.Visitors
 
         public VertexControl Visit(Box visited)
         {
-            var box = new BoxControl() { Label = visited.Label };
+            var box = new BoxControl() { Label = visited.Label };//string.Format("({0}) {1}", visited.Id, visited.Label) };
                        
             foreach (var item in visited.InputDummies)
             {
@@ -143,11 +152,12 @@ namespace BoBox.Visitors
 
         public VertexControl Visit(Subgraph visited)
         {
-            var box = new SubgraphControl() { Label = visited.Label };
+            var box = new SubgraphControl() { Label = visited.Label};// string.Format("({0}) {1}", visited.Id, visited.Label) };
 
             //var a = new ModelToControl();
             var sinks = visited.GetSinks();
-            box.GraphLayers = Transfrom(visited.Vertices, sinks);
+            var sources = visited.InputDummies.Select(i => i.Next.Parent);
+            box.GraphLayers = Transfrom(visited.Vertices, sources);
 
             foreach (var item in visited.InputDummies)
             {

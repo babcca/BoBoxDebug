@@ -1,0 +1,219 @@
+{
+	"Vertices": [
+		{
+			"Type": "box",
+			"Label": "init_box",
+			"Id": "b1",
+			"Inputs": [
+				
+			],
+			"Outputs": [
+				"b1_o1"
+			]
+
+		},
+		{
+			"Type": "subgraph",
+			"Label": "main",
+			"Id": "b2",
+			"Inputs": [
+				"b2_i1"
+			],
+			"Outputs": [
+				"b2_o1"
+			],
+			"Vertices": [
+				{
+					"Type": "box",
+					"Label": "_rr_dispatch",
+					"Id": "b14",
+					"Inputs": [
+						"b14_i1"
+					],
+					"Outputs": [
+						"b14_o1", "b14_o2", "b14_o3", "b14_o4"
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "stateless",
+					"Id": "b5",
+					"Inputs": [
+						"b5_i1"
+					],
+					"Outputs": [
+						"b5_o1"
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "stateless",
+					"Id": "b6",
+					"Inputs": [
+						"b6_i1"
+					],
+					"Outputs": [
+						"b6_o1"
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "stateless",
+					"Id": "b7",
+					"Inputs": [
+						"b7_i1"
+					],
+					"Outputs": [
+						"b7_o1"
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "stateless",
+					"Id": "b8",
+					"Inputs": [
+						"b8_i1"
+					],
+					"Outputs": [
+						"b8_o1"
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "_rr_aggregate",
+					"Id": "b15",
+					"Inputs": [
+						"b15_i1", "b15_i2", "b15_i3", "b15_i4"
+					],
+					"Outputs": [
+						"b15_o1"
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "stateful",
+					"Id": "b9",
+					"Inputs": [
+						"b9_i1"
+					],
+					"Outputs": [
+						"b9_o1"
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "_broadcast",
+					"Id": "b16",
+					"Inputs": [
+						"b16_i1"
+					],
+					"Outputs": [
+						"b16_o1", "b16_o2", "b16_o3", "b16_o4"
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "parallel",
+					"Id": "b10",
+					"Inputs": [
+						"b10_i1"
+					],
+					"Outputs": [
+						"b10_o1"
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "parallel",
+					"Id": "b11",
+					"Inputs": [
+						"b11_i1"
+					],
+					"Outputs": [
+						"b11_o1"
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "parallel",
+					"Id": "b12",
+					"Inputs": [
+						"b12_i1"
+					],
+					"Outputs": [
+						"b12_o1"
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "parallel",
+					"Id": "b13",
+					"Inputs": [
+						"b13_i1"
+					],
+					"Outputs": [
+						"b13_o1"
+					]
+
+				},
+				{
+					"Type": "box",
+					"Label": "_rr_aggregate",
+					"Id": "b17",
+					"Inputs": [
+						"b17_i1", "b17_i2", "b17_i3", "b17_i4"
+					],
+					"Outputs": [
+						"b17_o1"
+					]
+
+				}
+			]
+		},
+		{
+			"Type": "box",
+			"Label": "term_box",
+			"Id": "b18",
+			"Inputs": [
+				"b18_i1"
+			],
+			"Outputs": [
+				
+			]
+
+		}
+	],
+	"Edges": [
+		 { "Id": "edge_from_b10_o1", "Path": [ "b10_o1", "b17_i1" ] },
+		 { "Id": "edge_from_b11_o1", "Path": [ "b11_o1", "b17_i2" ] },
+		 { "Id": "edge_from_b12_o1", "Path": [ "b12_o1", "b17_i3" ] },
+		 { "Id": "edge_from_b13_o1", "Path": [ "b13_o1", "b17_i4" ] },
+		 { "Id": "edge_from_b14_o1", "Path": [ "b14_o1", "b5_i1" ] },
+		 { "Id": "edge_from_b14_o2", "Path": [ "b14_o2", "b6_i1" ] },
+		 { "Id": "edge_from_b14_o3", "Path": [ "b14_o3", "b7_i1" ] },
+		 { "Id": "edge_from_b14_o4", "Path": [ "b14_o4", "b8_i1" ] },
+		 { "Id": "edge_from_b15_o1", "Path": [ "b15_o1", "b9_i1" ] },
+		 { "Id": "edge_from_b16_o1", "Path": [ "b16_o1", "b10_i1" ] },
+		 { "Id": "edge_from_b16_o2", "Path": [ "b16_o2", "b11_i1" ] },
+		 { "Id": "edge_from_b16_o3", "Path": [ "b16_o3", "b12_i1" ] },
+		 { "Id": "edge_from_b16_o4", "Path": [ "b16_o4", "b13_i1" ] },
+		 { "Id": "edge_from_b17_o1", "Path": [ "b17_o1", "b2_o1", "b18_i1" ] },
+		 { "Id": "edge_from_b1_o1", "Path": [ "b1_o1", "b2_i1", "b14_i1" ] },
+		 { "Id": "edge_from_b5_o1", "Path": [ "b5_o1", "b15_i1" ] },
+		 { "Id": "edge_from_b6_o1", "Path": [ "b6_o1", "b15_i2" ] },
+		 { "Id": "edge_from_b7_o1", "Path": [ "b7_o1", "b15_i3" ] },
+		 { "Id": "edge_from_b8_o1", "Path": [ "b8_o1", "b15_i4" ] },
+		 { "Id": "edge_from_b9_o1", "Path": [ "b9_o1", "b16_i1" ] }
+	]
+}

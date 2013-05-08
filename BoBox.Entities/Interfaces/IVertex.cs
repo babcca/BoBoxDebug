@@ -13,7 +13,8 @@ namespace BoBox.Entities.Interfaces
         List<string> Inputs { get; set; }
         List<string> Outputs { get; set; }
 
-        IEnumerable<IVertex> Successtors { get; set; }
+        IEnumerable<IVertex> Successors { get; set; }
+        IEnumerable<IVertex> Ancestors { get; set; }
         void AddSuccesstor(IVertex vertex);
     }
 }

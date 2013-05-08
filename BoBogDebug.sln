@@ -13,6 +13,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoBox.Entities", "BoBox.Ent
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoBox.Utils", "BoBox.Utils\BoBox.Utils.csproj", "{2202E1D6-1AAE-4AA8-9A83-8F2BD2F7CF5C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoBox.Settings", "BoBox.Settings\BoBox.Settings.csproj", "{A9E370F2-7AA4-47E9-BC17-F8194A48E6DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoBox.Editor", "BoBox.Editor\BoBox.Editor.csproj", "{CDDDAA3A-E69B-4658-8BBF-4347989F7C53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoBox.Console", "BoBox.Console\BoBox.Console.csproj", "{A46CCB57-0A9F-4923-AEE8-1DB5B847802A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoBox.Graphics", "BoBox.AvalonDock.Manager\BoBox.Graphics.csproj", "{43DD10A3-3617-42D3-958F-FF10E383781D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoBox.LayoutControl", "BoBox.LayoutControl\BoBox.LayoutControl.csproj", "{55A2376C-0931-4619-8CB9-7354E11326B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +53,26 @@ Global
 		{2202E1D6-1AAE-4AA8-9A83-8F2BD2F7CF5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2202E1D6-1AAE-4AA8-9A83-8F2BD2F7CF5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2202E1D6-1AAE-4AA8-9A83-8F2BD2F7CF5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9E370F2-7AA4-47E9-BC17-F8194A48E6DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9E370F2-7AA4-47E9-BC17-F8194A48E6DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9E370F2-7AA4-47E9-BC17-F8194A48E6DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9E370F2-7AA4-47E9-BC17-F8194A48E6DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDDDAA3A-E69B-4658-8BBF-4347989F7C53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDDDAA3A-E69B-4658-8BBF-4347989F7C53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDDDAA3A-E69B-4658-8BBF-4347989F7C53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDDDAA3A-E69B-4658-8BBF-4347989F7C53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A46CCB57-0A9F-4923-AEE8-1DB5B847802A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A46CCB57-0A9F-4923-AEE8-1DB5B847802A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A46CCB57-0A9F-4923-AEE8-1DB5B847802A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A46CCB57-0A9F-4923-AEE8-1DB5B847802A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43DD10A3-3617-42D3-958F-FF10E383781D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43DD10A3-3617-42D3-958F-FF10E383781D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43DD10A3-3617-42D3-958F-FF10E383781D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43DD10A3-3617-42D3-958F-FF10E383781D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55A2376C-0931-4619-8CB9-7354E11326B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55A2376C-0931-4619-8CB9-7354E11326B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55A2376C-0931-4619-8CB9-7354E11326B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55A2376C-0931-4619-8CB9-7354E11326B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

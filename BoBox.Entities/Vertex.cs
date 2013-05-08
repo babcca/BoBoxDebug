@@ -25,16 +25,16 @@ namespace BoBox.Entities
 
             // Zaciname s prazdnym
             InputDummies = new List<DummyVertex>();
-            OutputDummies = new List<DummyVertex>();
+            OutputDummies = new List<DummyVertex>();            
         }
 
         public abstract void Accept(IVertexVisitor visitor);
         public abstract TResult Accept<TResult>(IVertexVisitor<TResult> visitor);
 
         
-        public IEnumerable<IVertex> Successtors { get; set; }
+        public IEnumerable<IVertex> Successors { get; set; }        
         public IEnumerable<DummyVertex> SuccesstorDumimes { get; set; }
-
+        public IEnumerable<IVertex> Ancestors { get; set; }
 
         public List<DummyVertex> InputDummies { get; set; }
         public List<DummyVertex> OutputDummies { get; set; }

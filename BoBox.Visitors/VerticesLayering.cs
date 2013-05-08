@@ -1,4 +1,5 @@
-﻿using BoBox.Entities.Interfaces;
+﻿using BoBox.Entities.Classes;
+using BoBox.Entities.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,7 +91,7 @@ namespace BoBox.Visitors
 
 
 
-    public class VerticesLayering : IVertexVisitor<int>
+    public class LongestPathLayering : IVertexVisitor<int>
     {
         ProprtiesLookupTable<LayeringProperties> properties;
         Dictionary<string, ProprtiesLookupTable<LayeringProperties>> subgraphLayering = new Dictionary<string, ProprtiesLookupTable<LayeringProperties>>();
@@ -178,7 +179,86 @@ namespace BoBox.Visitors
             var me = properties.Get(vertex.Id);
             if (me.Color != LayeringProperties.Colors.Black)
             {
-                var layer = vertex.Successtors.Select(s => s.Accept(this)).Max() + 1;
+                var layer = vertex.Successors.Select(s => s.Accept(this)).Max() + 1;
+                me.Layer = layer;
+                me.Color = LayeringProperties.Colors.Black;
+                return layer;
+            }
+            else
+            {
+                return me.Layer;
+            }
+        }
+    }
+
+
+    public class LongestPathLayeringUpDown : IVertexVisitor<int>
+    {
+        ProprtiesLookupTable<LayeringProperties> properties;
+        Dictionary<string, ProprtiesLookupTable<LayeringProperties>> subgraphLayering = new Dictionary<string, ProprtiesLookupTable<LayeringProperties>>();
+
+        LayerList Layers = new LayerList();
+
+        public Dictionary<int, List<IVertex>> ComputeLayers(IEnumerable<IVertex> vertices, IEnumerable<IVertex> sources)
+        {
+            properties = ProprtiesLookupTable<LayeringProperties>.Build(vertices);
+
+            // Posledni vrcholy jsou v prvni vrstve
+            foreach (var source in sources)
+            {
+                properties.Get(source.Id).Color = LayeringProperties.Colors.Black;
+                Layers.InsertToLayer(0, source);
+            }
+
+            // Rekurzivne dopocitej vrsty pro ostatni vrcholy
+            // [TODO] Nejlepe pro source (v podgrafech to jsou Intputs)
+            foreach (var vertex in vertices)
+            {
+                vertex.Accept(this);
+            }
+
+            return Layers.Layers;
+            
+            
+            
+            //Dictionary<int, List<IVertex>> layers = new Dictionary<int, List<IVertex>>();
+            //foreach (var item in properties.Table)
+            //{
+            //    List<IVertex> layer;
+            //    if (!layers.TryGetValue(item.Value.Layer, out layer))
+            //    {
+            //        var vertex = vertices.First(v => v.Id == item.Key);
+            //        layers.Add(item.Value.Layer, new List<IVertex>() { vertex });
+            //    }
+            //    else
+            //    {
+            //        layer.Add(vertices.First(v => v.Id == item.Key));
+            //    }
+            //}
+
+            //return layers;
+        }
+
+        public int Visit(Entities.Box visited)
+        {
+            return GetLayer(visited);            
+        }
+
+        public int Visit(Entities.Subgraph visited)
+        {
+            return GetLayer(visited);            
+        }
+        
+        private int GetLayer(IVertex vertex)
+        {
+            var me = properties.Get(vertex.Id);
+            if (me.Color != LayeringProperties.Colors.Black)
+            {
+                var layer = vertex.Ancestors.Select(s => s.Accept(this)).Max() + 1;
+                
+                // Create layer table
+                Layers.InsertToLayer(layer, vertex);
+
                 me.Layer = layer;
                 me.Color = LayeringProperties.Colors.Black;
                 return layer;

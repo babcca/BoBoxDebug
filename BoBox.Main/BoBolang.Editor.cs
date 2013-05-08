@@ -19,12 +19,13 @@ namespace BoBox.Main.Editor
     public class TabManager : LayoutDocumentPane
     {
         public TabManager()
-        {            
+        {       
+                 
         }
 
-        private BaseTab GetActiveTab()
+        public BaseTab GetActiveTab()
         {
-            return this.Children.First(c => c.IsActive == true) as BaseTab;
+            return this.Children.FirstOrDefault(c => c.IsActive == true) as BaseTab;
         }
 
         public string ActiveTab { get { return this.SelectedContent.Title; } }
@@ -111,11 +112,21 @@ namespace BoBox.Main.Editor
             Content = GetTextEditor(sourceFile);
             Title = GetDocumentTitle(sourceFile);
             ToolTip = GetDocumentTooltip(sourceFile);
-            Closing += BoBolangEditor_Closing;
+            Closing += BoBolangEditor_Closing;            
             IsSelected = true;
 
             IsChanged = false;
             FileName = sourceFile;
+        }
+
+        public void Save()
+        {
+            if (IsChanged)
+            {
+                File.WriteAllText(FileName, Document.Text);
+                IsChanged = false;
+                Title = string.Format("{0}", GetDocumentTitle(FileName));
+            }
         }
 
         void BoBolangEditor_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -127,7 +138,7 @@ namespace BoBox.Main.Editor
                 switch (status)
                 {
                     case MessageBoxResult.Yes:
-                        File.WriteAllText(FileName, Document.Text);
+                        Save();
                         e.Cancel = false;
                         break;
                     case MessageBoxResult.No:

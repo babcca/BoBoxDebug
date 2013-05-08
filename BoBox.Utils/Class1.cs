@@ -8,6 +8,7 @@ namespace BoBox.Utils
 {
     public interface IConsole
     {
-        void Log(string line);
-    }
+        void Log(string format, params object[] args);
+        void Error(string format, params object[] args);
+    }    
 }
