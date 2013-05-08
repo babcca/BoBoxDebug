@@ -18,12 +18,12 @@ namespace BoBox.Visitors
 
    
 
-    public class ModelToControl : IVertexVisitor<VertexControl>
+    public class ModelToLayeredControl : IVertexVisitor<VertexControl>
     {
         public static Dictionary<DummyVertex, DummyControl> CreatedControls = new Dictionary<DummyVertex, DummyControl>();
         public bool Debug { get; set; }
 
-        public ModelToControl()
+        public ModelToLayeredControl()
         {
             Debug = false;
         }

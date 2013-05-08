@@ -118,26 +118,7 @@ namespace BoBox.Main
                     return highlighting;
                 }
             }
-        }
-
-        private void Build_Click(object sender, RoutedEventArgs e)
-        {
-            var compiler = BoBox.Deserializer.Config.Instance.BobolangCompiler;
-            var args = BoBox.Deserializer.Config.Instance.BobolangCommand;
-
-            if (!string.IsNullOrWhiteSpace(compiler))
-            {
-                FileExecution fe = new FileExecution() { Console = model.Console };                
-                var filename = MainDocumentsPane.Children.First(c => c.IsActive).ToolTip.ToString();
-                var cmd = string.Format(args, filename);
-                fe.Run(compiler, cmd);
-            }
-            else
-            {
-                model.Console.Error("BoBolang compiler not set");
-            }
-
-        }
+        }        
 
         private void MenuItem_Graph_Open(object sender, RoutedEventArgs e)
         {
@@ -189,6 +170,58 @@ namespace BoBox.Main
         private void dockingManager_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Build_Click(object sender, RoutedEventArgs e)
+        {
+            var compiler = BoBox.Deserializer.Config.Instance.BobolangCompiler;
+            var args = BoBox.Deserializer.Config.Instance.BobolangCommand;
+
+            if (!string.IsNullOrWhiteSpace(compiler))
+            {
+                FileExecution fe = new FileExecution() { Console = model.Console };
+                var activeSource = MainDocumentsPane.Children.FirstOrDefault(c => c.IsActive);
+                if (activeSource != null)
+                {
+                    var filename = activeSource.ToolTip.ToString();
+                    var cmd = string.Format(args, filename);
+                    fe.Run(compiler, cmd);
+                }
+                else
+                {
+                    model.Console.Error("No active bobolang file");
+                }
+            }
+            else
+            {
+                model.Console.Error("BoBolang compiler not set");
+            }
+        }
+
+        private void RunBoBolang_Click(object sender, RoutedEventArgs e)
+        {
+            var runtime = BoBox.Deserializer.Config.Instance.BoBoxRuntime;
+            var args = BoBox.Deserializer.Config.Instance.BoBoxRuntimeCommand;
+
+            if (!string.IsNullOrWhiteSpace(runtime))
+            {
+                FileExecution fe = new FileExecution() { Console = model.Console };
+                var activeSource = MainDocumentsPane.Children.FirstOrDefault(c => c.IsActive);
+                if (activeSource != null)
+                {
+                    var modelFile = activeSource.ToolTip.ToString();
+                    var cmd = string.Format(args, modelFile);
+                    fe.Run(runtime, cmd);
+                }
+                else
+                {
+                    model.Console.Error("No active bobolang file");
+                }
+            }
+            else
+            {
+                model.Console.Error("BoBox runtime not set");
+            }
         }
     }
 }

@@ -39,6 +39,8 @@ namespace BoBox.Deserializer
                         
             using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream("config.json", FileMode.OpenOrCreate, storage))
             {
+                // Nacti jako config
+                // Znovu inicializace staticke instance?
                 Config instance_ = JsonSerializer.DeserializeFromStream<Config>(stream);          
                 return instance_;
             }
@@ -48,6 +50,7 @@ namespace BoBox.Deserializer
         {
             IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForAssembly();
 
+            // Uloz jako konfiguracni data (proc ne config?)
             using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream("config.json", FileMode.OpenOrCreate, storage))
             {                
                 JsonSerializer.SerializeToStream<ConfigData>(this, stream);
@@ -71,6 +74,18 @@ namespace BoBox.Deserializer
         [DisplayName("Syntax definition path")]
         [Editor(typeof(ExecutableFileEditor), typeof(ITypeEditor))]
         public string SyntaxDefinitionPath { get; set; }
+
+
+        [Category("BoBox Runtime")]
+        [DisplayName("BoBox Runtime commnad")]
+        public string BoBoxRuntimeCommand { get; set; }
+
+        [Category("BoBox Runtime")]
+        [DisplayName("BoBox runtime path")]
+        [Editor(typeof(ExecutableFileEditor), typeof(ITypeEditor))]                
+        public string BoBoxRuntime { get; set; }
+
+        
 
         //[ExpandableObject]        
     }

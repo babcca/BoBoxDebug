@@ -79,7 +79,7 @@ namespace BoBox.Main.Editor
             var s = System.Diagnostics.Stopwatch.StartNew();
             var l = new ModelLoader();
             var m = l.LoadFromFile(sourceFile);
-            var c = new ModelToControl();
+            var c = new ModelToLayeredControl();
             var p = c.Transfrom(m);
             s.Stop();
             var e = s.ElapsedTicks;

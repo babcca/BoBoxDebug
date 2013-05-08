@@ -54,8 +54,8 @@
 
 
             <ToolBar>
-                <Button Content="Build" Click="Build_Click"  />
-                <Button Content="Generuj graf 2" />
+                <Button Content="To Graph" Click="Build_Click"  />
+                <Button Content="Run" Click="RunBoBolang_Click" />
                 <Button Content="Generuj graf 2" />
             </ToolBar>
         </ToolBarTray>
